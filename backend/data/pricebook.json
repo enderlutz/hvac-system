@@ -1,0 +1,22 @@
+{
+  "_note": "Phase 1 placeholder — will be populated from client Excel in Phase 2",
+  "labor_base": {
+    "replacement": "[TBD]",
+    "new_install": "[TBD]",
+    "repair": "[TBD]",
+    "add_on": "[TBD]"
+  },
+  "adders": {
+    "lineset_replacement": "[TBD]",
+    "permit_fee": "[TBD]",
+    "electrical_work": "[TBD]",
+    "ductwork": "[TBD]"
+  },
+  "access_difficulty_multiplier": {
+    "standard": "[TBD]",
+    "attic": "[TBD]",
+    "tight": "[TBD]",
+    "rooftop": "[TBD]"
+  },
+  "equipment": {}
+}

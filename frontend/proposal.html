@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HVAC Proposal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-wrapper">
+    <header class="app-header">
+      <div class="logo-placeholder">[ Company Logo ]</div>
+      <h1>HVAC Proposal</h1>
+    </header>
+
+    <!-- R-22 Warning Banner -->
+    <div id="r22-banner" class="alert alert-warning hidden">
+      <strong>R-22 Refrigerant Alert:</strong> The existing system uses R-22 (Freon), which is no longer manufactured. Full system replacement is strongly recommended.
+    </div>
+
+    <!-- SEER2 Compliance Note -->
+    <div id="seer2-note" class="alert alert-info hidden">
+      All systems meet or exceed the Texas minimum SEER2 efficiency standard (15 SEER2) for new installations.
+    </div>
+
+    <!-- Proposal Header -->
+    <div id="proposal-header" class="card proposal-header hidden">
+      <div class="proposal-meta">
+        <div>
+          <span class="meta-label">Customer:</span>
+          <span id="disp-customer-name"></span>
+        </div>
+        <div>
+          <span class="meta-label">Address:</span>
+          <span id="disp-customer-address"></span>
+        </div>
+        <div>
+          <span class="meta-label">System:</span>
+          <span id="disp-system-info"></span>
+        </div>
+        <div>
+          <span class="meta-label">Technician:</span>
+          <span id="disp-tech-name"></span>
+        </div>
+        <div>
+          <span class="meta-label">Date:</span>
+          <span id="disp-visit-date"></span>
+        </div>
+        <div>
+          <span class="meta-label">Proposal ID:</span>
+          <span id="disp-proposal-id" class="proposal-id"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit mode toggle + export -->
+    <div id="proposal-actions" class="proposal-actions hidden">
+      <label class="checkbox-label">
+        <input type="checkbox" id="edit-mode-toggle" onchange="toggleEditMode()" />
+        Edit Mode (office staff adjustments)
+      </label>
+      <button class="btn btn-primary" onclick="exportPDF()">Export PDF</button>
+      <button class="btn btn-secondary" onclick="window.location.href='index.html'">New Proposal</button>
+    </div>
+
+    <!-- Three-tier proposal comparison -->
+    <div id="proposal-tiers" class="tier-grid hidden">
+
+      <!-- GOOD -->
+      <div class="tier-card tier-good" id="card-good">
+        <div class="tier-badge">Good</div>
+        <div class="tier-brand" id="good-brand"></div>
+        <div class="tier-desc" id="good-desc"></div>
+        <div class="tier-seer" id="good-seer"></div>
+        <ul class="tier-benefits" id="good-benefits"></ul>
+        <div class="tier-warranty">
+          <span class="detail-label">Warranty:</span>
+          <span id="good-warranty"></span>
+        </div>
+        <div class="tier-install">
+          <span class="detail-label">Install Time:</span>
+          <span id="good-install-time"></span>
+        </div>
+        <div class="tier-pricing">
+          <div class="price-row">
+            <span>Equipment</span>
+            <span class="editable-field" id="good-equipment-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-row">
+            <span>Labor</span>
+            <span class="editable-field" id="good-labor-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-row" id="good-adders-row">
+            <span>Adders</span>
+            <span class="editable-field" id="good-adders-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-total">
+            <span>Total</span>
+            <span class="editable-field total-price" id="good-total" contenteditable="false"></span>
+          </div>
+        </div>
+        <div class="placeholder-note hidden" id="good-placeholder">Pricing pending Excel integration</div>
+      </div>
+
+      <!-- BETTER -->
+      <div class="tier-card tier-better" id="card-better">
+        <div class="tier-badge">Better</div>
+        <div class="tier-brand" id="better-brand"></div>
+        <div class="tier-desc" id="better-desc"></div>
+        <div class="tier-seer" id="better-seer"></div>
+        <ul class="tier-benefits" id="better-benefits"></ul>
+        <div class="tier-warranty">
+          <span class="detail-label">Warranty:</span>
+          <span id="better-warranty"></span>
+        </div>
+        <div class="tier-install">
+          <span class="detail-label">Install Time:</span>
+          <span id="better-install-time"></span>
+        </div>
+        <div class="tier-pricing">
+          <div class="price-row">
+            <span>Equipment</span>
+            <span class="editable-field" id="better-equipment-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-row">
+            <span>Labor</span>
+            <span class="editable-field" id="better-labor-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-row" id="better-adders-row">
+            <span>Adders</span>
+            <span class="editable-field" id="better-adders-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-total">
+            <span>Total</span>
+            <span class="editable-field total-price" id="better-total" contenteditable="false"></span>
+          </div>
+        </div>
+        <div class="placeholder-note hidden" id="better-placeholder">Pricing pending Excel integration</div>
+      </div>
+
+      <!-- BEST -->
+      <div class="tier-card tier-best" id="card-best">
+        <div class="tier-badge best-badge">Best</div>
+        <div class="tier-recommended">RECOMMENDED</div>
+        <div class="tier-brand" id="best-brand"></div>
+        <div class="tier-desc" id="best-desc"></div>
+        <div class="tier-seer" id="best-seer"></div>
+        <ul class="tier-benefits" id="best-benefits"></ul>
+        <div class="tier-warranty">
+          <span class="detail-label">Warranty:</span>
+          <span id="best-warranty"></span>
+        </div>
+        <div class="tier-install">
+          <span class="detail-label">Install Time:</span>
+          <span id="best-install-time"></span>
+        </div>
+        <div class="tier-pricing">
+          <div class="price-row">
+            <span>Equipment</span>
+            <span class="editable-field" id="best-equipment-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-row">
+            <span>Labor</span>
+            <span class="editable-field" id="best-labor-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-row" id="best-adders-row">
+            <span>Adders</span>
+            <span class="editable-field" id="best-adders-cost" contenteditable="false"></span>
+          </div>
+          <div class="price-total">
+            <span>Total</span>
+            <span class="editable-field total-price" id="best-total" contenteditable="false"></span>
+          </div>
+        </div>
+        <div class="placeholder-note hidden" id="best-placeholder">Pricing pending Excel integration</div>
+      </div>
+    </div>
+
+    <!-- Permit note -->
+    <div id="permit-note" class="alert alert-info hidden">
+      This proposal includes a permit application, as required for full system replacements in the Houston metro area.
+    </div>
+
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <span>Loading proposal...</span>
+    </div>
+
+    <div id="proposal-error" class="alert alert-error hidden">
+      Could not load proposal. <a href="index.html">Return to form</a>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

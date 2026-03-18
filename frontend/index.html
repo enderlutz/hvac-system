@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HVAC Proposal — Job Intake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-wrapper">
+    <header class="app-header">
+      <div class="logo-placeholder">[ Company Logo ]</div>
+      <h1>HVAC Proposal Generator</h1>
+    </header>
+
+    <!-- Input mode toggle -->
+    <div class="mode-toggle">
+      <button id="btn-structured" class="toggle-btn active" onclick="setMode('structured')">Structured Form</button>
+      <button id="btn-notes" class="toggle-btn" onclick="setMode('notes')">Paste Tech Notes</button>
+    </div>
+
+    <!-- Raw notes fallback -->
+    <div id="raw-notes-section" class="card hidden">
+      <h2>Paste Technician Notes</h2>
+      <textarea id="raw-notes-input" rows="8" placeholder="Paste free-form technician notes here...&#10;&#10;Example: 3.5 ton split system, attic install, R-22, full replacement needed ASAP, permit required, new lineset"></textarea>
+      <button class="btn btn-secondary" onclick="parseNotes()">Parse Notes &rarr; Pre-fill Form</button>
+      <div id="parse-status" class="parse-status hidden"></div>
+    </div>
+
+    <!-- R-22 Warning Banner -->
+    <div id="r22-banner" class="alert alert-warning hidden">
+      <strong>R-22 Detected:</strong> This system uses R-22 refrigerant (Freon), which is no longer manufactured. A full system replacement is strongly recommended.
+    </div>
+
+    <!-- Job Intake Form -->
+    <form id="job-form" class="card" onsubmit="submitForm(event)">
+      <h2>Job Details</h2>
+
+      <div class="form-grid">
+        <!-- Customer Info -->
+        <div class="form-section">
+          <h3>Customer</h3>
+          <div class="field">
+            <label for="customer_name">Customer Name <span class="req">*</span></label>
+            <input type="text" id="customer_name" name="customer_name" required />
+          </div>
+          <div class="field">
+            <label for="customer_address">Customer Address <span class="req">*</span></label>
+            <input type="text" id="customer_address" name="customer_address" required placeholder="123 Main St, Houston TX 77001" />
+          </div>
+        </div>
+
+        <!-- Technician Info -->
+        <div class="form-section">
+          <h3>Technician</h3>
+          <div class="field">
+            <label for="technician_name">Technician Name <span class="req">*</span></label>
+            <input type="text" id="technician_name" name="technician_name" required />
+          </div>
+          <div class="field">
+            <label for="visit_date">Visit Date <span class="req">*</span></label>
+            <input type="date" id="visit_date" name="visit_date" required />
+          </div>
+        </div>
+
+        <!-- System Info -->
+        <div class="form-section full-width">
+          <h3>System Details</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="system_type">System Type <span class="req">*</span></label>
+              <select id="system_type" name="system_type" required>
+                <option value="">Select...</option>
+                <option value="split">Split System</option>
+                <option value="heat_pump">Heat Pump</option>
+                <option value="package_unit">Package Unit</option>
+                <option value="mini_split">Ductless Mini-Split</option>
+                <option value="commercial">Commercial</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="service_type">Service Type <span class="req">*</span></label>
+              <select id="service_type" name="service_type" required onchange="onServiceTypeChange()">
+                <option value="">Select...</option>
+                <option value="replacement">Replacement</option>
+                <option value="repair">Repair</option>
+                <option value="new_install">New Install</option>
+                <option value="add_on">Add-On</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="system_size_tons">System Size (Tons) <span class="req">*</span></label>
+              <select id="system_size_tons" name="system_size_tons" required>
+                <option value="">Select...</option>
+                <option value="1.5">1.5 Ton</option>
+                <option value="2.0">2.0 Ton</option>
+                <option value="2.5">2.5 Ton</option>
+                <option value="3.0">3.0 Ton</option>
+                <option value="3.5">3.5 Ton</option>
+                <option value="4.0">4.0 Ton</option>
+                <option value="5.0">5.0 Ton</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Existing Equipment -->
+        <div class="form-section full-width">
+          <h3>Existing Equipment</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="existing_equipment_make">Equipment Make</label>
+              <input type="text" id="existing_equipment_make" name="existing_equipment_make" placeholder="e.g. Carrier, Lennox, Trane" />
+            </div>
+            <div class="field">
+              <label for="existing_equipment_model">Equipment Model</label>
+              <input type="text" id="existing_equipment_model" name="existing_equipment_model" />
+            </div>
+            <div class="field">
+              <label for="existing_equipment_age">Equipment Age (years)</label>
+              <input type="number" id="existing_equipment_age" name="existing_equipment_age" min="0" max="50" />
+            </div>
+            <div class="field">
+              <label for="existing_refrigerant">Existing Refrigerant</label>
+              <select id="existing_refrigerant" name="existing_refrigerant" onchange="onRefrigerantChange()">
+                <option value="">Unknown</option>
+                <option value="R-22">R-22 (Freon)</option>
+                <option value="R-410A">R-410A (Puron)</option>
+                <option value="R-32">R-32</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Conditions -->
+        <div class="form-section full-width">
+          <h3>Job Conditions</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="access_difficulty">Access Difficulty</label>
+              <select id="access_difficulty" name="access_difficulty">
+                <option value="standard">Standard</option>
+                <option value="attic">Attic</option>
+                <option value="tight">Tight / Restricted</option>
+                <option value="rooftop">Rooftop</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="urgency">Urgency</label>
+              <select id="urgency" name="urgency">
+                <option value="routine">Routine</option>
+                <option value="soon">Soon</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Checkboxes -->
+          <div class="checkbox-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="permit_required" name="permit_required" />
+              Permit Required
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="lineset_replacement" name="lineset_replacement" />
+              Lineset Replacement Needed
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="electrical_work_needed" name="electrical_work_needed" onchange="toggleNotes('electrical')" />
+              Electrical Work Needed
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="ductwork_needed" name="ductwork_needed" onchange="toggleNotes('ductwork')" />
+              Ductwork Needed
+            </label>
+          </div>
+
+          <div id="electrical-notes-row" class="field hidden">
+            <label for="electrical_notes">Electrical Work Notes</label>
+            <input type="text" id="electrical_notes" name="electrical_notes" placeholder="Describe electrical work needed..." />
+          </div>
+          <div id="ductwork-notes-row" class="field hidden">
+            <label for="ductwork_notes">Ductwork Notes</label>
+            <input type="text" id="ductwork_notes" name="ductwork_notes" placeholder="Describe ductwork needed..." />
+          </div>
+        </div>
+
+        <!-- SEER2 Note -->
+        <div class="form-section full-width">
+          <div class="info-note">
+            Texas requires a minimum of 15 SEER2 for all new installations. All proposals will meet or exceed this standard.
+          </div>
+        </div>
+
+        <!-- Additional Notes -->
+        <div class="form-section full-width">
+          <div class="field">
+            <label for="additional_notes">Additional Notes</label>
+            <textarea id="additional_notes" name="additional_notes" rows="3" placeholder="Any special conditions or details not covered above..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" id="submit-btn">Generate Proposal</button>
+      </div>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Generating proposal...</span>
+      </div>
+
+      <div id="form-error" class="alert alert-error hidden"></div>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Set today's date as default
+    document.getElementById('visit_date').valueAsDate = new Date();
+  </script>
+</body>
+</html>
