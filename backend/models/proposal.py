@@ -2,6 +2,26 @@ from pydantic import BaseModel
 from typing import Optional
 
 
+class MarginAnalysis(BaseModel):
+    total_cost: float              # sub_total (what the company pays)
+    suggested_retail: float        # sub_total / 0.55
+    tax: float
+    suggested_final: float         # suggested_retail + tax
+    cash_discount_price: float     # 5% off suggested_final
+    gross_margin_dollars: float
+    gross_margin_pct: float        # target ~45%
+    overhead_20pct: float          # 20% of suggested_retail
+    net_profit: float
+    net_profit_pct: float
+
+
+class ProposalAddOn(BaseModel):
+    name: str
+    description: str
+    price: float
+    selected: bool = False
+
+
 class TierOption(BaseModel):
     tier_name: str           # "Good", "Better", "Best"
     brand: str
@@ -14,8 +34,10 @@ class TierOption(BaseModel):
     equipment_cost: str
     labor_cost: str
     adders_cost: str
-    total_price: str
+    total_price: str         # suggested price (formatted)
+    cash_discount_price: str = ""  # 5% off total
     is_placeholder: bool = True
+    margin: Optional[MarginAnalysis] = None
 
 
 class ProposalResponse(BaseModel):
@@ -33,6 +55,7 @@ class ProposalResponse(BaseModel):
     good: TierOption
     better: TierOption
     best: TierOption
+    add_ons: list[ProposalAddOn] = []
 
 
 class ParsedNotesField(BaseModel):

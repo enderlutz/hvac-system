@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import {
-  DollarSign, FileText, TrendingUp, Flame, AlertTriangle,
-  ArrowRight, Clock, CheckCircle2, XCircle,
+  DollarSign, FileText, TrendingUp, Flame,
+  ArrowRight, Clock, CheckCircle2,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MOCK_STATS, MOCK_PROPOSALS } from "@/lib/mock-data";
-import { formatCurrency } from "@/lib/utils";
-import type { DashboardStats, Proposal } from "@/lib/types";
+import { api } from "@/lib/api";
+import { formatCurrency, formatDate } from "@/lib/utils";
+import type { ProposalRecord, ProposalStage } from "@/lib/types";
 
 const STAGE_LABELS: Record<string, string> = {
   new_lead: "New Lead",
@@ -22,6 +22,11 @@ const STAGE_LABELS: Record<string, string> = {
   won: "Won",
   lost: "Lost",
 };
+
+const STAGE_ORDER: ProposalStage[] = [
+  "new_lead", "appointment_set", "estimate_ready",
+  "proposal_sent", "follow_up", "won", "lost",
+];
 
 function StatCard({
   title,
@@ -52,18 +57,56 @@ function StatCard({
   );
 }
 
-export default function DashboardPage() {
-  const [stats, setStats] = useState<DashboardStats>(MOCK_STATS);
-  const [proposals, setProposals] = useState<Proposal[]>(MOCK_PROPOSALS);
+function StageBadge({ stage }: { stage: string }) {
+  const map: Record<string, { label: string; variant: "default" | "success" | "destructive" | "warning" | "outline" | "urgent" }> = {
+    new_lead:        { label: "New Lead",   variant: "outline" },
+    appointment_set: { label: "Appt Set",   variant: "default" },
+    estimate_ready:  { label: "Est. Ready", variant: "warning" },
+    proposal_sent:   { label: "Sent",       variant: "default" },
+    follow_up:       { label: "Follow Up",  variant: "urgent" },
+    won:             { label: "Won",        variant: "success" },
+    lost:            { label: "Lost",       variant: "destructive" },
+  };
+  const { label, variant } = map[stage] ?? { label: stage, variant: "outline" };
+  return <Badge variant={variant}>{label}</Badge>;
+}
 
-  // Load from localStorage cache (real data wired in Phase 2)
-  useEffect(() => {
-    const cached = localStorage.getItem("hvac_proposals");
-    if (cached) setProposals(JSON.parse(cached));
+export default function DashboardPage() {
+  const [proposals, setProposals] = useState<ProposalRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+  const pollRef = useRef<NodeJS.Timeout | null>(null);
+
+  const fetchProposals = useCallback(async () => {
+    try {
+      const data = await api.pipeline.list();
+      setProposals(data);
+    } catch {
+      // silently fail
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const urgent = proposals.filter((p) => p.urgency === "urgent" && p.stage !== "won" && p.stage !== "lost");
+  useEffect(() => {
+    fetchProposals();
+    pollRef.current = setInterval(fetchProposals, 30_000);
+    return () => { if (pollRef.current) clearInterval(pollRef.current); };
+  }, [fetchProposals]);
+
+  // Compute stats from live data
+  const active = proposals.filter((p) => !["won", "lost"].includes(p.stage));
+  const won = proposals.filter((p) => p.stage === "won");
+  const lost = proposals.filter((p) => p.stage === "lost");
+  const urgent = proposals.filter((p) => p.urgency === "urgent" && !["won", "lost"].includes(p.stage));
   const followUps = proposals.filter((p) => p.stage === "follow_up");
+  const estimateReady = proposals.filter((p) => p.stage === "estimate_ready");
+  const winRate = proposals.length > 0 ? Math.round((won.length / proposals.length) * 100) : 0;
+
+  const byStage = STAGE_ORDER.reduce((acc, s) => {
+    acc[s] = proposals.filter((p) => p.stage === s).length;
+    return acc;
+  }, {} as Record<ProposalStage, number>);
+
   const recent = [...proposals]
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, 5);
@@ -94,33 +137,50 @@ export default function DashboardPage() {
         </div>
       )}
 
+      {/* Estimate-ready notification */}
+      {estimateReady.length > 0 && (
+        <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-amber-50 border border-amber-200">
+          <FileText className="h-5 w-5 text-amber-500 shrink-0" />
+          <p className="text-sm font-medium text-amber-800">
+            <span className="font-semibold">{estimateReady.length} estimate{estimateReady.length > 1 ? "s" : ""} ready for review</span>
+            {" — "}
+            {estimateReady.map((p) => p.customer_name).join(", ")}
+          </p>
+          <Link href="/proposals" className="ml-auto">
+            <Button size="sm" variant="outline" className="border-amber-300 text-amber-700 hover:bg-amber-100">
+              Review <ArrowRight className="h-3 w-3" />
+            </Button>
+          </Link>
+        </div>
+      )}
+
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          title="Pipeline Value"
-          value={formatCurrency(stats.pipeline_value)}
-          sub={`${stats.total_proposals_month} proposals this month`}
+          title="Active Pipeline"
+          value={String(active.length)}
+          sub={`${proposals.length} total proposals`}
           icon={DollarSign}
-          iconColor="#1a56db"
+          iconColor="#16a34a"
         />
         <StatCard
-          title="Won This Month"
-          value={String(stats.won_this_month)}
-          sub={`${formatCurrency(stats.won_this_month * stats.avg_deal_size)} closed revenue`}
+          title="Won"
+          value={String(won.length)}
+          sub={`${lost.length} lost, ${winRate}% win rate`}
           icon={CheckCircle2}
           iconColor="#059669"
         />
         <StatCard
           title="Win Rate"
-          value={`${stats.win_rate}%`}
-          sub={`Avg deal size ${formatCurrency(stats.avg_deal_size)}`}
+          value={`${winRate}%`}
+          sub={`${proposals.length} total proposals`}
           icon={TrendingUp}
           iconColor="#7c3aed"
         />
         <StatCard
           title="Follow Ups Due"
           value={String(followUps.length)}
-          sub={`${urgent.length} urgent, ${stats.total_proposals_month - stats.won_this_month - (stats.proposals_by_stage.lost || 0)} active`}
+          sub={`${urgent.length} urgent, ${estimateReady.length} awaiting review`}
           icon={Clock}
           iconColor="#d97706"
         />
@@ -135,10 +195,17 @@ export default function DashboardPage() {
             <CardTitle className="text-base">Pipeline by Stage</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {Object.entries(stats.proposals_by_stage).map(([stage, count]) => {
-              const pct = Math.round((count / stats.total_proposals_month) * 100);
-              const isWon = stage === "won";
-              const isLost = stage === "lost";
+            {proposals.length === 0 && loading && (
+              <div className="flex justify-center py-4">
+                <div className="w-5 h-5 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+            {proposals.length === 0 && !loading && (
+              <p className="text-sm text-muted-foreground text-center py-4">No proposals yet</p>
+            )}
+            {proposals.length > 0 && STAGE_ORDER.map((stage) => {
+              const count = byStage[stage] ?? 0;
+              const pct = Math.round((count / proposals.length) * 100);
               return (
                 <div key={stage} className="space-y-1">
                   <div className="flex justify-between text-sm">
@@ -150,7 +217,7 @@ export default function DashboardPage() {
                       className="h-full rounded-full transition-all"
                       style={{
                         width: `${pct}%`,
-                        background: isWon ? "#059669" : isLost ? "#ef4444" : "#1a56db",
+                        background: stage === "won" ? "#16a34a" : stage === "lost" ? "#ef4444" : "#4ade80",
                       }}
                     />
                   </div>
@@ -171,17 +238,33 @@ export default function DashboardPage() {
             </Link>
           </CardHeader>
           <CardContent className="space-y-3">
+            {loading && (
+              <div className="flex justify-center py-4">
+                <div className="w-5 h-5 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+            {!loading && recent.length === 0 && (
+              <div className="text-center py-6 space-y-3">
+                <p className="text-sm text-muted-foreground">No proposals yet.</p>
+                <div className="flex gap-2 justify-center">
+                  <Link href="/field" target="_blank">
+                    <Button size="sm" variant="outline">Tech Portal</Button>
+                  </Link>
+                  <Link href="/estimate">
+                    <Button size="sm">New Estimate</Button>
+                  </Link>
+                </div>
+              </div>
+            )}
             {recent.map((p) => (
+              <Link key={p.id} href={`/proposals/${p.id}`}>
               <div
-                key={p.id}
-                className="flex items-start justify-between gap-3 p-3 rounded-lg bg-muted/40 hover:bg-muted/70 transition-colors"
+                className="flex items-start justify-between gap-3 p-3 rounded-lg bg-muted/40 hover:bg-muted/70 transition-colors cursor-pointer"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-medium text-sm truncate">{p.customer_name}</span>
-                    {p.r22_flag && (
-                      <Badge variant="r22" className="text-xs">R-22</Badge>
-                    )}
+                    {p.r22_flag && <Badge variant="r22" className="text-xs">R-22</Badge>}
                     {p.urgency === "urgent" && (
                       <Badge variant="urgent" className="text-xs">Urgent</Badge>
                     )}
@@ -193,9 +276,10 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex flex-col items-end gap-1.5 shrink-0">
                   <StageBadge stage={p.stage} />
-                  <span className="text-xs text-muted-foreground">{formatCurrency(p.pipeline_value)}</span>
+                  <span className="text-xs text-muted-foreground">{formatDate(p.visit_date)}</span>
                 </div>
               </div>
+              </Link>
             ))}
           </CardContent>
         </Card>
@@ -216,21 +300,19 @@ export default function DashboardPage() {
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {followUps.map((p) => (
-                <div key={p.id} className="p-3 rounded-lg border bg-amber-50 border-amber-200">
+                <Link key={p.id} href={`/proposals/${p.id}`}>
+                <div className="p-3 rounded-lg border bg-amber-50 border-amber-200 hover:bg-amber-100 transition-colors cursor-pointer">
                   <div className="font-medium text-sm">{p.customer_name}</div>
                   <div className="text-xs text-muted-foreground mt-0.5">{p.customer_address}</div>
                   {p.notes && (
                     <div className="text-xs text-amber-700 mt-1.5 line-clamp-2">{p.notes}</div>
                   )}
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs font-medium">{formatCurrency(p.pipeline_value)}</span>
-                    <Link href="/proposals">
-                      <Button size="sm" variant="outline" className="h-6 text-xs px-2">
-                        View
-                      </Button>
-                    </Link>
+                    <span className="text-xs font-medium capitalize">{p.urgency}</span>
+                    <span className="text-xs text-amber-700 font-medium">View →</span>
                   </div>
                 </div>
+                </Link>
               ))}
             </div>
           </CardContent>
@@ -238,18 +320,4 @@ export default function DashboardPage() {
       )}
     </div>
   );
-}
-
-function StageBadge({ stage }: { stage: string }) {
-  const map: Record<string, { label: string; variant: "default" | "success" | "destructive" | "warning" | "outline" | "urgent" }> = {
-    new_lead:       { label: "New Lead",        variant: "outline" },
-    appointment_set:{ label: "Appt Set",        variant: "default" },
-    estimate_ready: { label: "Est. Ready",      variant: "warning" },
-    proposal_sent:  { label: "Sent",            variant: "default" },
-    follow_up:      { label: "Follow Up",       variant: "urgent" },
-    won:            { label: "Won",             variant: "success" },
-    lost:           { label: "Lost",            variant: "destructive" },
-  };
-  const { label, variant } = map[stage] ?? { label: stage, variant: "outline" };
-  return <Badge variant={variant}>{label}</Badge>;
 }

@@ -1,22 +1,5145 @@
 {
-  "_note": "Phase 1 placeholder — will be populated from client Excel in Phase 2",
-  "labor_base": {
-    "replacement": "[TBD]",
-    "new_install": "[TBD]",
-    "repair": "[TBD]",
-    "add_on": "[TBD]"
+  "_source": "Lucks Air & Heat \u2014 1 - RETRO ESTIMATING SHEET.xlsx, EQUIPMENT PRICING + PRICING WORKSHEET",
+  "_last_updated": "2026-03-24",
+  "_notes": [
+    "All equipment prices extracted directly from Excel EQUIPMENT PRICING sheet.",
+    "All material prices extracted from Excel PRICING WORKSHEET.",
+    "Cross-referenced and verified against source. Every total = furnace + coil + condenser.",
+    "Shared coil models (ARUF/ASPT) have different prices under Amana vs Goodman \u2014 each package uses the correct brand price."
+  ],
+  "pricing_constants": {
+    "equipment_markup": 1.1,
+    "materials_buffer": 1.05,
+    "markup_divisor": 0.55,
+    "tax_rate": 0.0825,
+    "cash_check_discount": 0.05
+  },
+  "fixed_costs": {
+    "warranty": 150,
+    "permit_default": 200,
+    "misc_flat": 150
+  },
+  "labor": {
+    "complete_retrofit": 900,
+    "furnace_only_warranty": 250,
+    "furnace_only_cod": 350,
+    "coil_only_warranty": 200,
+    "coil_only_cod": 250,
+    "compressor_warranty": 200,
+    "compressor_cod": 250,
+    "condenser_only_warranty": 100,
+    "condenser_only_cod": 200,
+    "txv_warranty_sweat": 150,
+    "txv_cod_sweat": 200,
+    "txv_warranty_no_sweat": 100,
+    "txv_cod_no_sweat": 125,
+    "ductwork_per_run": 50,
+    "plenum": 50,
+    "dehumidifier": 300,
+    "media_filtration": 100
   },
   "adders": {
-    "lineset_replacement": "[TBD]",
-    "permit_fee": "[TBD]",
-    "electrical_work": "[TBD]",
-    "ductwork": "[TBD]"
+    "lineset_replacement": null,
+    "electrical_work": null,
+    "ductwork": null,
+    "_note": "Adder costs null = awaiting client confirmation."
   },
-  "access_difficulty_multiplier": {
-    "standard": "[TBD]",
-    "attic": "[TBD]",
-    "tight": "[TBD]",
-    "rooftop": "[TBD]"
+  "system_type_surcharge": {
+    "heat_pump": {
+      "good": 400,
+      "better": 500,
+      "best": 700
+    },
+    "package_unit": {
+      "good": 250,
+      "better": 350,
+      "best": 500
+    }
   },
-  "equipment": {}
+  "default_bom": {
+    "_note": "Materials cost estimates by tonnage and access difficulty. To be refined with real job data from PRICING WORKSHEET.",
+    "1.5": {
+      "standard": 280,
+      "attic": 340,
+      "tight": 360,
+      "rooftop": 380
+    },
+    "2.0": {
+      "standard": 320,
+      "attic": 390,
+      "tight": 410,
+      "rooftop": 430
+    },
+    "2.5": {
+      "standard": 360,
+      "attic": 440,
+      "tight": 460,
+      "rooftop": 480
+    },
+    "3.0": {
+      "standard": 400,
+      "attic": 480,
+      "tight": 500,
+      "rooftop": 520
+    },
+    "3.5": {
+      "standard": 440,
+      "attic": 530,
+      "tight": 555,
+      "rooftop": 575
+    },
+    "4.0": {
+      "standard": 480,
+      "attic": 580,
+      "tight": 610,
+      "rooftop": 640
+    },
+    "5.0": {
+      "standard": 540,
+      "attic": 650,
+      "tight": 680,
+      "rooftop": 710
+    }
+  },
+  "materials_catalog": {
+    "plenum": [
+      {
+        "description": "PART #",
+        "part_num": "11X17X36P",
+        "unit_cost": 21.25
+      },
+      {
+        "description": "PART #",
+        "part_num": "11X20X36P",
+        "unit_cost": 21.3
+      },
+      {
+        "description": "PART #",
+        "part_num": "11X23X48",
+        "unit_cost": 25
+      },
+      {
+        "description": "PART #",
+        "part_num": "16X20X48",
+        "unit_cost": 79
+      },
+      {
+        "description": "PART #",
+        "part_num": "20X20X48",
+        "unit_cost": 79
+      },
+      {
+        "description": "PART #",
+        "part_num": "21X24X48",
+        "unit_cost": 82
+      }
+    ],
+    "ra_cans": [
+      {
+        "description": "PART #",
+        "part_num": "202518HRAC",
+        "unit_cost": 38
+      },
+      {
+        "description": "PART #",
+        "part_num": "122418HRAC",
+        "unit_cost": 33
+      },
+      {
+        "description": "PART #",
+        "part_num": "162518HRAC",
+        "unit_cost": 34
+      }
+    ],
+    "media_filters": [
+      {
+        "description": "16x25 HW MEDIA FILTER",
+        "part_num": "F100F2002",
+        "unit_cost": 60.642
+      },
+      {
+        "description": "20x25 HW MEDIA FILTER",
+        "part_num": "F100F2010",
+        "unit_cost": 60.642
+      },
+      {
+        "description": "16x25 HW REPLACEMENT FILTER",
+        "part_num": "HFC100A1029",
+        "unit_cost": 29.513
+      },
+      {
+        "description": "20x25 HW REPLACEMENT FILTER",
+        "part_num": "HFC100A1037",
+        "unit_cost": 29.513
+      },
+      {
+        "description": "MF RETURN CAN",
+        "part_num": "202524HRAC",
+        "unit_cost": 43
+      }
+    ],
+    "fresh_air": [
+      {
+        "description": "FRESH AIR BOX",
+        "part_num": "12X12FABOX",
+        "unit_cost": 9.18
+      },
+      {
+        "description": "6\" AUTO DAMPER",
+        "part_num": "EARD6",
+        "unit_cost": 39.474
+      },
+      {
+        "description": "8\" AUTO DAMPER",
+        "part_num": "EARD8",
+        "unit_cost": 56.584
+      },
+      {
+        "description": "6\" x 9\" WALL CAP",
+        "part_num": "6X9 BIRD",
+        "unit_cost": 5.89
+      },
+      {
+        "description": "8\" INLINE BLOWER",
+        "part_num": "8ILB",
+        "unit_cost": 31.165
+      },
+      {
+        "description": "8\" MUD DAMPER",
+        "part_num": "8MD",
+        "unit_cost": 143.197
+      },
+      {
+        "description": "10\" INLINE BLOWER",
+        "part_num": "10ILB",
+        "unit_cost": 54
+      },
+      {
+        "description": "10\" MUD DAMPER",
+        "part_num": "10MD",
+        "unit_cost": 251.543
+      }
+    ],
+    "flue_pipe": [
+      {
+        "description": "2 FOOTER",
+        "part_num": "424",
+        "unit_cost": 7.242
+      },
+      {
+        "description": "3 FOOTER",
+        "part_num": "436",
+        "unit_cost": 9.945
+      },
+      {
+        "description": "4 FOOTER",
+        "part_num": "448",
+        "unit_cost": 9.514
+      },
+      {
+        "description": "5 FOOTER",
+        "part_num": "460",
+        "unit_cost": 11.501
+      },
+      {
+        "description": "45 DEG ELL",
+        "part_num": "445",
+        "unit_cost": 6.133
+      },
+      {
+        "description": "90 DEG ELL",
+        "part_num": "490",
+        "unit_cost": 11.887
+      },
+      {
+        "description": "4\" FLASHING",
+        "part_num": "4FJ",
+        "unit_cost": 4.73
+      },
+      {
+        "description": "4\" CAP",
+        "part_num": "4C",
+        "unit_cost": 6.286
+      },
+      {
+        "description": "4\" COLLAR",
+        "part_num": "4COL",
+        "unit_cost": 1.275
+      }
+    ],
+    "roof_jacks": [
+      {
+        "description": "2\" ROOF JACK",
+        "part_num": "4J2",
+        "unit_cost": 2.124
+      },
+      {
+        "description": "3\" ROOF JACK",
+        "part_num": "4J3",
+        "unit_cost": 2.336
+      },
+      {
+        "description": "4\" ROOF JACK",
+        "part_num": "RJ4",
+        "unit_cost": 10.742
+      },
+      {
+        "description": "6\" ROOF JACK",
+        "part_num": "4J6",
+        "unit_cost": 19.784
+      },
+      {
+        "description": "8\" ROOF JACK",
+        "part_num": "4J8",
+        "unit_cost": 16.95
+      }
+    ],
+    "copper_tubing": [
+      {
+        "description": "1 1/8\" COPPER TUBING",
+        "part_num": "118C",
+        "unit_cost": 4.6823
+      },
+      {
+        "description": "7/8\" COPPER TUBING",
+        "part_num": "78C",
+        "unit_cost": 3.2017
+      },
+      {
+        "description": "3/4\" COPPER TUBING",
+        "part_num": "34C",
+        "unit_cost": 2.1175
+      },
+      {
+        "description": "3/8\" COPPER TUBING",
+        "part_num": "38C",
+        "unit_cost": 0.8912
+      }
+    ],
+    "armaflex_half_inch": [
+      {
+        "description": "1 1/8\" x 1/2\" INSULATION",
+        "part_num": "11812",
+        "unit_cost": 0.3597
+      }
+    ],
+    "armaflex_one_inch": [
+      {
+        "description": "1 1/8\" x 1\" INSULATION",
+        "part_num": "1181",
+        "unit_cost": 0.7907
+      },
+      {
+        "description": "7/8\" x 1\" INSULATION",
+        "part_num": "781",
+        "unit_cost": 0.814
+      },
+      {
+        "description": "3/4\" x 1\" INSULATION",
+        "part_num": "341",
+        "unit_cost": 0.7348
+      }
+    ],
+    "drain_pans": [
+      {
+        "description": "18\" x 44\"",
+        "part_num": "18X44DP",
+        "unit_cost": 40
+      },
+      {
+        "description": "32\" x 36\"",
+        "part_num": "32X36DP",
+        "unit_cost": 24
+      },
+      {
+        "description": "32\" x 70\"",
+        "part_num": "32X70DP",
+        "unit_cost": 52
+      }
+    ],
+    "flex_duct_r8": [
+      {
+        "description": "4\"",
+        "part_num": "R84",
+        "unit_cost": 1.3767
+      },
+      {
+        "description": "5\"",
+        "part_num": "R85",
+        "unit_cost": 1.515
+      },
+      {
+        "description": "6\"",
+        "part_num": "R86",
+        "unit_cost": 1.606
+      },
+      {
+        "description": "7\"",
+        "part_num": "R87",
+        "unit_cost": 1.7328
+      },
+      {
+        "description": "8\"",
+        "part_num": "R88",
+        "unit_cost": 1.9674
+      },
+      {
+        "description": "9\"",
+        "part_num": "R89",
+        "unit_cost": 2.1637
+      },
+      {
+        "description": "10\"",
+        "part_num": "R810",
+        "unit_cost": 2.3578
+      },
+      {
+        "description": "12\"",
+        "part_num": "R812",
+        "unit_cost": 2.8953
+      },
+      {
+        "description": "14\"",
+        "part_num": "R814",
+        "unit_cost": 3.5355
+      },
+      {
+        "description": "16\"",
+        "part_num": "R816",
+        "unit_cost": 4.1668
+      },
+      {
+        "description": "18\"",
+        "part_num": "R818",
+        "unit_cost": 4.9297
+      },
+      {
+        "description": "20\"",
+        "part_num": "R820",
+        "unit_cost": 6.0561
+      }
+    ],
+    "outlet_boxes": [
+      {
+        "description": "8X4X0",
+        "part_num": "8X4X0",
+        "unit_cost": 10.99
+      },
+      {
+        "description": "8X4X4",
+        "part_num": "8X4X4",
+        "unit_cost": 6.99
+      },
+      {
+        "description": "10X8X0",
+        "part_num": "10X8X0",
+        "unit_cost": 11.99
+      },
+      {
+        "description": "10X8X6",
+        "part_num": "10X8X6",
+        "unit_cost": 8.99
+      },
+      {
+        "description": "10X8X7",
+        "part_num": "10X8X7",
+        "unit_cost": 8.99
+      },
+      {
+        "description": "10X8X8",
+        "part_num": "10X8X8",
+        "unit_cost": 8.99
+      },
+      {
+        "description": "10X8X9",
+        "part_num": "10X8X9",
+        "unit_cost": 6.95
+      },
+      {
+        "description": "12X12X0 Ductboard",
+        "part_num": "12X12X0DB",
+        "unit_cost": 7
+      },
+      {
+        "description": "12X12X0",
+        "part_num": "12X12X0",
+        "unit_cost": 11.5
+      }
+    ],
+    "wyes": [
+      {
+        "description": "6X4X4",
+        "part_num": "644",
+        "unit_cost": 5.5
+      },
+      {
+        "description": "7X5X5",
+        "part_num": "755",
+        "unit_cost": 6.5
+      },
+      {
+        "description": "7X6X4",
+        "part_num": "764",
+        "unit_cost": 6.5
+      },
+      {
+        "description": "8X6X4",
+        "part_num": "864",
+        "unit_cost": 7
+      },
+      {
+        "description": "8X6X5",
+        "part_num": "865",
+        "unit_cost": 3.948
+      },
+      {
+        "description": "8X6X6",
+        "part_num": "866",
+        "unit_cost": 7
+      },
+      {
+        "description": "8X7X4",
+        "part_num": "874",
+        "unit_cost": 7
+      },
+      {
+        "description": "9X7X7",
+        "part_num": "977",
+        "unit_cost": 7.5
+      },
+      {
+        "description": "9X8X4",
+        "part_num": "984",
+        "unit_cost": 7.5
+      },
+      {
+        "description": "9X8X6",
+        "part_num": "986",
+        "unit_cost": 4.588
+      },
+      {
+        "description": "10X8X7",
+        "part_num": "1087",
+        "unit_cost": 5.072
+      },
+      {
+        "description": "10X8X8",
+        "part_num": "1088",
+        "unit_cost": 8
+      },
+      {
+        "description": "10X9X6",
+        "part_num": "1096",
+        "unit_cost": 8
+      },
+      {
+        "description": "12X9X9",
+        "part_num": "1299",
+        "unit_cost": 11.5
+      },
+      {
+        "description": "12X10X8",
+        "part_num": "121008",
+        "unit_cost": 11.5
+      },
+      {
+        "description": "14X12X10",
+        "part_num": "141210",
+        "unit_cost": 10.288
+      }
+    ],
+    "start_collars": [
+      {
+        "description": "4\"",
+        "part_num": "4SC",
+        "unit_cost": 0.591
+      },
+      {
+        "description": "5\"",
+        "part_num": "5SC",
+        "unit_cost": 0.708
+      },
+      {
+        "description": "6\"",
+        "part_num": "6SC",
+        "unit_cost": 0.827
+      },
+      {
+        "description": "7\"",
+        "part_num": "7SC",
+        "unit_cost": 0.924
+      },
+      {
+        "description": "8\"",
+        "part_num": "8SC",
+        "unit_cost": 1.074
+      },
+      {
+        "description": "9\"",
+        "part_num": "9SC",
+        "unit_cost": 1.191
+      },
+      {
+        "description": "10\"",
+        "part_num": "10SC",
+        "unit_cost": 1.342
+      },
+      {
+        "description": "12\"",
+        "part_num": "12SC",
+        "unit_cost": 1.59
+      },
+      {
+        "description": "14\"",
+        "part_num": "14SC",
+        "unit_cost": 2.094
+      },
+      {
+        "description": "16\"",
+        "part_num": "16SC",
+        "unit_cost": 2.492
+      },
+      {
+        "description": "18\"",
+        "part_num": "18SC",
+        "unit_cost": 2.717
+      },
+      {
+        "description": "20\"",
+        "part_num": "20SC",
+        "unit_cost": 3.103
+      }
+    ],
+    "sleeves": [
+      {
+        "description": "5\"",
+        "part_num": "5DSLEEVE",
+        "unit_cost": 0.977
+      },
+      {
+        "description": "6\"",
+        "part_num": "6DSLEEVE",
+        "unit_cost": 1.009
+      },
+      {
+        "description": "7\"",
+        "part_num": "7DSLEEVE",
+        "unit_cost": 1.307
+      },
+      {
+        "description": "8\"",
+        "part_num": "8DSLEEVE",
+        "unit_cost": 1.328
+      },
+      {
+        "description": "9\"",
+        "part_num": "9DSLEEVE",
+        "unit_cost": 1.467
+      },
+      {
+        "description": "10\"",
+        "part_num": "10DSLEEVE",
+        "unit_cost": 1.626
+      },
+      {
+        "description": "12\"",
+        "part_num": "12DSLEEVE",
+        "unit_cost": 1.945
+      },
+      {
+        "description": "14\"",
+        "part_num": "14DSLEEVE",
+        "unit_cost": 2.54
+      },
+      {
+        "description": "16\"",
+        "part_num": "16DSLEEVE",
+        "unit_cost": 2.869
+      },
+      {
+        "description": "18\"",
+        "part_num": "18DSLEEVE",
+        "unit_cost": 3.208
+      },
+      {
+        "description": "20\"",
+        "part_num": "20DSLEEVE",
+        "unit_cost": 4.5
+      }
+    ],
+    "hardpipe": [
+      {
+        "description": "4\" HARDPIPE",
+        "part_num": "4HP",
+        "unit_cost": 0.966
+      },
+      {
+        "description": "5\" HARDPIPE",
+        "part_num": "5HP",
+        "unit_cost": 1.26
+      },
+      {
+        "description": "6\" HARDPIPE",
+        "part_num": "6HP",
+        "unit_cost": 1.095
+      },
+      {
+        "description": "8\" HARDPIPE",
+        "part_num": "8HP",
+        "unit_cost": 1.71
+      },
+      {
+        "description": "10\" HARDPIPE",
+        "part_num": "10HP",
+        "unit_cost": 2.567
+      }
+    ],
+    "hardpipe_ells": [
+      {
+        "description": "4\" 90'S",
+        "part_num": "4EL",
+        "unit_cost": 1.872
+      },
+      {
+        "description": "5\" 90'S",
+        "part_num": "5EL",
+        "unit_cost": 2.188
+      },
+      {
+        "description": "6\" 90'S",
+        "part_num": "6EL",
+        "unit_cost": 2.05
+      },
+      {
+        "description": "8\" 90'S",
+        "part_num": "8EL",
+        "unit_cost": 3.292
+      },
+      {
+        "description": "10\" 90'S",
+        "part_num": "10EL",
+        "unit_cost": 5.684
+      },
+      {
+        "description": "4\" -> 5\" REDUCER",
+        "part_num": "4=5reducer",
+        "unit_cost": 3.828
+      },
+      {
+        "description": "DRYER VENT BOX",
+        "part_num": "DRYER VENT BOX",
+        "unit_cost": 17.723
+      },
+      {
+        "description": "DRYER VENT BOOSTER",
+        "part_num": "PV-100XPS",
+        "unit_cost": 176.06
+      }
+    ],
+    "pvc_fittings": [
+      {
+        "description": "3/4\" PVC PIPE",
+        "part_num": "34WD",
+        "unit_cost": 0.3194
+      },
+      {
+        "description": "3/4\" PVC 90",
+        "part_num": "34/90EB",
+        "unit_cost": 0.184
+      },
+      {
+        "description": "3/4\" PVC 45",
+        "part_num": "34/45EB",
+        "unit_cost": 0.233
+      },
+      {
+        "description": "3/4\" PVC COUPLING",
+        "part_num": "34CP",
+        "unit_cost": 0.16
+      },
+      {
+        "description": "3/4\" PVC FEMALE",
+        "part_num": "34FA",
+        "unit_cost": 0.18
+      },
+      {
+        "description": "3/4\" PVC MALE",
+        "part_num": "34MA",
+        "unit_cost": 0.161
+      },
+      {
+        "description": "3/4\" PVC TEE",
+        "part_num": "34T",
+        "unit_cost": 0.243
+      },
+      {
+        "description": "3/4\" PVC P-TRAP",
+        "part_num": "34PT",
+        "unit_cost": 0.794
+      },
+      {
+        "description": "2\" PVC PIPE",
+        "part_num": "2P",
+        "unit_cost": 2.2486
+      },
+      {
+        "description": "2\" PVC 90",
+        "part_num": "290",
+        "unit_cost": 1.73
+      },
+      {
+        "description": "2\" PVC 45",
+        "part_num": "245",
+        "unit_cost": 0.88
+      },
+      {
+        "description": "2\" PVC STREET 90",
+        "part_num": "290S",
+        "unit_cost": 1.082
+      },
+      {
+        "description": "2\" PVC COUPLING",
+        "part_num": "2C",
+        "unit_cost": 0.3
+      },
+      {
+        "description": "2\" ROOF FLASHING",
+        "part_num": "2FL",
+        "unit_cost": 8.84
+      },
+      {
+        "description": "3\" CONCENTRIC KIT",
+        "part_num": "3BAZOOKA",
+        "unit_cost": 49.883
+      }
+    ],
+    "dampers_bypass": [
+      {
+        "description": "AUTO DAMPER 8\"",
+        "part_num": "TARD08",
+        "unit_cost": 76.769
+      },
+      {
+        "description": "AUTO DAMPER 10\"",
+        "part_num": "TARD10",
+        "unit_cost": 79.78
+      },
+      {
+        "description": "AUTO DAMPER 12\"",
+        "part_num": "TARD12",
+        "unit_cost": 82.011
+      },
+      {
+        "description": "AUTO DAMPER 14\"",
+        "part_num": "TARD14",
+        "unit_cost": 86.096
+      },
+      {
+        "description": "AUTO DAMPER 16\"",
+        "part_num": "TARD16",
+        "unit_cost": 90.201
+      },
+      {
+        "description": "BYPASS DMPR 08\"",
+        "part_num": "BPHW08",
+        "unit_cost": 57.514
+      },
+      {
+        "description": "BYPASS DMPR 10\"",
+        "part_num": "BPHW10",
+        "unit_cost": 60.705
+      },
+      {
+        "description": "BYPASS DMPR 12\"",
+        "part_num": "BPHW12",
+        "unit_cost": 61.218
+      },
+      {
+        "description": "BYPASS DMPR 14\"",
+        "part_num": "BPHW14",
+        "unit_cost": 68.101
+      }
+    ],
+    "misc_supplies": [
+      {
+        "description": "DUCTBOARD",
+        "part_num": "SHEET",
+        "unit_cost": 46.024
+      },
+      {
+        "description": "BLACK NYLON",
+        "part_num": "2NYLONSTRAP",
+        "unit_cost": 3.615
+      },
+      {
+        "description": "MASTIC",
+        "part_num": "MASTIC",
+        "unit_cost": 9.904
+      },
+      {
+        "description": "BRUSH",
+        "part_num": "BRUSH",
+        "unit_cost": 0.629
+      },
+      {
+        "description": "CITY TAPE",
+        "part_num": "UL",
+        "unit_cost": 8.548
+      },
+      {
+        "description": "FOILTAPE",
+        "part_num": "2F",
+        "unit_cost": 14.545
+      },
+      {
+        "description": "1\" METAL STRAP",
+        "part_num": "1MHS",
+        "unit_cost": 12.017
+      },
+      {
+        "description": "GASKET",
+        "part_num": "GASKET",
+        "unit_cost": 0.061
+      },
+      {
+        "description": "1/4 PT PVC GLUE",
+        "part_num": "1/4GLUE",
+        "unit_cost": 4.383
+      },
+      {
+        "description": "PRIMER",
+        "part_num": "PRIMER",
+        "unit_cost": 2.228
+      },
+      {
+        "description": "COPPER PLATE",
+        "part_num": "NAILPLATE",
+        "unit_cost": 2.9
+      },
+      {
+        "description": "COPPER BOX",
+        "part_num": "CB",
+        "unit_cost": 7.5
+      },
+      {
+        "description": "5 WIRE T-STAT",
+        "part_num": "205",
+        "unit_cost": 0.19
+      },
+      {
+        "description": "8 WIRE T-STAT",
+        "part_num": "208",
+        "unit_cost": 0.2968
+      },
+      {
+        "description": "NAILS (1 1/2\")",
+        "part_num": "SMNAIL",
+        "unit_cost": 0.114
+      },
+      {
+        "description": "NAILS (16D 3 1/2\")",
+        "part_num": "LGNAIL",
+        "unit_cost": 0.5184
+      },
+      {
+        "description": "SCREWS 1/2\"",
+        "part_num": "SMSCREW",
+        "unit_cost": 1.1426
+      },
+      {
+        "description": "SCREWS 2x8",
+        "part_num": "LGSCREW",
+        "unit_cost": 1.1818
+      },
+      {
+        "description": "HEATER STAND",
+        "part_num": "HEATER STAND",
+        "unit_cost": 9.95
+      },
+      {
+        "description": "PANDUIT STRAP",
+        "part_num": "PANDUIT",
+        "unit_cost": 0.1848
+      },
+      {
+        "description": "FLOAT SWITCH",
+        "part_num": "FLOAT",
+        "unit_cost": 12.239
+      },
+      {
+        "description": "3-ZONE SINGLE STAGE  KIT",
+        "part_num": "HZ311K",
+        "unit_cost": 128.323
+      },
+      {
+        "description": "VAR SPD ZONE KIT",
+        "part_num": "HZ322K",
+        "unit_cost": 160.612
+      }
+    ],
+    "registers": [
+      {
+        "description": "8 x  4   3WAY",
+        "part_num": "TSC84 3W",
+        "unit_cost": 3.222
+      },
+      {
+        "description": "10 x  6  3WAY",
+        "part_num": "TSC106 3W",
+        "unit_cost": 3.526
+      },
+      {
+        "description": "10 x  8  2WAY",
+        "part_num": "TSC108 2W",
+        "unit_cost": 3.136
+      },
+      {
+        "description": "10 x  8  3WAY",
+        "part_num": "TSC108",
+        "unit_cost": 3.646
+      },
+      {
+        "description": "12 x  6  3WAY",
+        "part_num": "TSC126",
+        "unit_cost": 3.721
+      },
+      {
+        "description": "12 x 12  4WAY",
+        "part_num": "TSC1212",
+        "unit_cost": 6.305
+      }
+    ],
+    "metal_registers": [
+      {
+        "description": "8 x 4 3WAY METAL",
+        "part_num": "TSC84 3M",
+        "unit_cost": 2.978
+      },
+      {
+        "description": "10 x 6 3WAY METAL",
+        "part_num": "TSC106 3W",
+        "unit_cost": 3.626
+      },
+      {
+        "description": "10 x 8 2WAY METAL",
+        "part_num": "TSC108 2M",
+        "unit_cost": 6.637
+      },
+      {
+        "description": "10 x 8 3WAY METAL",
+        "part_num": "TSC108 3M",
+        "unit_cost": 4.266
+      },
+      {
+        "description": "12 x 6 3WAY METAL",
+        "part_num": "TSC126 3M",
+        "unit_cost": 3.977
+      },
+      {
+        "description": "12 x 12 4WAY METAL",
+        "part_num": "TSC1212 4M",
+        "unit_cost": 9.276
+      }
+    ],
+    "filter_grills_sidewall": [
+      {
+        "description": "12X12 FG",
+        "part_num": "1212FG",
+        "unit_cost": 8.99
+      },
+      {
+        "description": "12X24 FG",
+        "part_num": "1224FG",
+        "unit_cost": 12.976
+      },
+      {
+        "description": "16X25 FG",
+        "part_num": "1625FG",
+        "unit_cost": 19.515
+      },
+      {
+        "description": "20X20 FG",
+        "part_num": "2020FG",
+        "unit_cost": 17.264
+      },
+      {
+        "description": "20X25 FG",
+        "part_num": "2025FG",
+        "unit_cost": 19.036
+      },
+      {
+        "description": "20X30 FG",
+        "part_num": "2030FG",
+        "unit_cost": 16.642
+      },
+      {
+        "description": "25X32 FG",
+        "part_num": "2532FG",
+        "unit_cost": 42.484
+      }
+    ],
+    "filter_grills_ceiling": [
+      {
+        "description": "24X12 FG",
+        "part_num": "2412FG",
+        "unit_cost": 13.313
+      },
+      {
+        "description": "25X16 FG",
+        "part_num": "2516FG",
+        "unit_cost": 18.037
+      },
+      {
+        "description": "25X20 FG",
+        "part_num": "2520FG",
+        "unit_cost": 20.631
+      },
+      {
+        "description": "30X20 FG",
+        "part_num": "3020FG",
+        "unit_cost": 23.298
+      },
+      {
+        "description": "32X25 FG",
+        "part_num": "3225FG",
+        "unit_cost": 39.167
+      }
+    ],
+    "filters": [
+      {
+        "description": "12X12 FILTER",
+        "part_num": "1212F",
+        "unit_cost": 2.286
+      },
+      {
+        "description": "12X24 FILTER",
+        "part_num": "1224F",
+        "unit_cost": 2.655
+      },
+      {
+        "description": "16X25 FILTER",
+        "part_num": "1625F",
+        "unit_cost": 2.381
+      },
+      {
+        "description": "20X20 FILTER",
+        "part_num": "2020F",
+        "unit_cost": 2.146
+      },
+      {
+        "description": "20X25 FILTER",
+        "part_num": "2025F",
+        "unit_cost": 2.56
+      },
+      {
+        "description": "20X30 FILTER",
+        "part_num": "2030F",
+        "unit_cost": 3.912
+      },
+      {
+        "description": "25X32 FILTER",
+        "part_num": "2532F",
+        "unit_cost": 20.625
+      }
+    ],
+    "deflectos": [
+      {
+        "description": "3\" SIDEWALL CAP",
+        "part_num": "3D",
+        "unit_cost": 1.411
+      },
+      {
+        "description": "4\" SIDEWALL CAP",
+        "part_num": "4D",
+        "unit_cost": 2.714
+      },
+      {
+        "description": "6\" SIDEWALL CAP",
+        "part_num": "6D",
+        "unit_cost": 2.606
+      },
+      {
+        "description": "8\" SIDEWALL CAP",
+        "part_num": "8D",
+        "unit_cost": 4.355
+      }
+    ],
+    "bath_fans": [
+      {
+        "description": "BROAN 80 CFM",
+        "part_num": "A000HF",
+        "unit_cost": 9.113
+      },
+      {
+        "description": "DUCTLESS BATH FAN",
+        "part_num": "B682",
+        "unit_cost": 43.46
+      },
+      {
+        "description": "B.F. HOUSING",
+        "part_num": "B1667H",
+        "unit_cost": 6.625
+      },
+      {
+        "description": "100 CFM HUMIDITY SENSING HOUSING",
+        "part_num": "QTRE100SH",
+        "unit_cost": 167.656
+      },
+      {
+        "description": "3\" HARD FLEXMET",
+        "part_num": "3FH",
+        "unit_cost": 0.5254
+      },
+      {
+        "description": "4\" FLEXMET",
+        "part_num": "4FH",
+        "unit_cost": 0.6411
+      },
+      {
+        "description": "6\" FLEXMET",
+        "part_num": "6FH",
+        "unit_cost": 1.3512
+      },
+      {
+        "description": "STANDARD BF",
+        "part_num": "B1688F",
+        "unit_cost": 9.06
+      },
+      {
+        "description": "BROAN 80 CFM FINISH",
+        "part_num": "AE80BF",
+        "unit_cost": 31.146
+      },
+      {
+        "description": "100 CFM HUMIDITY SENSING FINISH",
+        "part_num": "QTRE100SF",
+        "unit_cost": 1
+      }
+    ],
+    "reducers": [
+      {
+        "description": "5\"-->4\" REDUCER",
+        "part_num": "4=5REDUCER",
+        "unit_cost": 1.64
+      },
+      {
+        "description": "6\"-->5\" REDUCER",
+        "part_num": "6=5REDUCER",
+        "unit_cost": 1.901
+      },
+      {
+        "description": "7\"-->5\" REDUCER",
+        "part_num": "7=5REDUCER",
+        "unit_cost": 1.648
+      },
+      {
+        "description": "3.5\" X 10\" Square to 5\" Round Hoodvent Adapter",
+        "part_num": "3510R5",
+        "unit_cost": 3
+      }
+    ],
+    "misc_material_rough": [
+      {
+        "description": "D.V. PLATE",
+        "part_num": "4DE",
+        "unit_cost": 0.388
+      },
+      {
+        "description": "WHITE CAULK",
+        "part_num": "W CAULK",
+        "unit_cost": 1.745
+      },
+      {
+        "description": "CLEAR CAULK",
+        "part_num": "C CAULK",
+        "unit_cost": 5.6
+      },
+      {
+        "description": "BROWN CAULK",
+        "part_num": "BROWN CAULK",
+        "unit_cost": 3.535
+      }
+    ],
+    "thermostats": [
+      {
+        "description": "HONEYWELL T4 DIGITAL THERMOSTAT",
+        "part_num": "TH4110U2005",
+        "unit_cost": 28.126
+      },
+      {
+        "description": "",
+        "part_num": "TH6210U2001",
+        "unit_cost": 51.905
+      },
+      {
+        "description": "",
+        "part_num": "TH6220U2000",
+        "unit_cost": 72.874
+      },
+      {
+        "description": "",
+        "part_num": "TH6220WF2006",
+        "unit_cost": 104.296
+      },
+      {
+        "description": "",
+        "part_num": "TH8321WF1001",
+        "unit_cost": 174.001
+      },
+      {
+        "description": "",
+        "part_num": "THX321WF3003W",
+        "unit_cost": 160.107
+      },
+      {
+        "description": "",
+        "part_num": "TCONT850",
+        "unit_cost": 443.64
+      },
+      {
+        "description": "",
+        "part_num": "TLINK360A2VV",
+        "unit_cost": 772.73
+      }
+    ],
+    "copper_fittings": [
+      {
+        "description": "1 1/8\" COUPLING",
+        "part_num": "118CC",
+        "unit_cost": 1.37
+      },
+      {
+        "description": "7/8\" COUPLING",
+        "part_num": "78CC",
+        "unit_cost": 1.075
+      },
+      {
+        "description": "3/4\" COUPLING",
+        "part_num": "34CC",
+        "unit_cost": 0.634
+      },
+      {
+        "description": "3/8\" COUPLING",
+        "part_num": "38CC",
+        "unit_cost": 0.24
+      },
+      {
+        "description": "1 1/8\" 90",
+        "part_num": "118SEB",
+        "unit_cost": 2.598
+      },
+      {
+        "description": "7/8\" 90",
+        "part_num": "78SEB",
+        "unit_cost": 2.908
+      },
+      {
+        "description": "3/4\" 90",
+        "part_num": "34SEB",
+        "unit_cost": 1.791
+      }
+    ],
+    "txvs": [
+      {
+        "description": "EXPANS VALVE",
+        "part_num": "TX2N4",
+        "unit_cost": 53
+      },
+      {
+        "description": "EXPANS VALVE",
+        "part_num": "TX3N4",
+        "unit_cost": 53
+      },
+      {
+        "description": "EXPANS VALVE",
+        "part_num": "TX5N4",
+        "unit_cost": 53
+      },
+      {
+        "description": "EXPANS VALVE",
+        "part_num": "TXV-30",
+        "unit_cost": 53
+      },
+      {
+        "description": "EXPANS VALVE",
+        "part_num": "TXV-36",
+        "unit_cost": 53
+      },
+      {
+        "description": "EXPANS VALVE",
+        "part_num": "TXV-42",
+        "unit_cost": 53
+      },
+      {
+        "description": "EXPANS VALVE",
+        "part_num": "TXV-48",
+        "unit_cost": 53
+      },
+      {
+        "description": "EXPANS VALVE",
+        "part_num": "TXV-60",
+        "unit_cost": 53
+      }
+    ],
+    "slabs": [
+      {
+        "description": "36 x 36 ULTRALITE",
+        "part_num": "36X36UL",
+        "unit_cost": 63.04
+      },
+      {
+        "description": "40 x 40 ULTRALITE",
+        "part_num": "40X40UL",
+        "unit_cost": 77.82
+      }
+    ],
+    "misc_material_set": [
+      {
+        "description": "BLUE WIRE NUT",
+        "part_num": "HIB",
+        "unit_cost": 0.1231
+      },
+      {
+        "description": "COPPER BOX LID",
+        "part_num": "LID",
+        "unit_cost": 1
+      },
+      {
+        "description": "1 1/4\" PINS",
+        "part_num": "11/4PIN",
+        "unit_cost": 0.163
+      },
+      {
+        "description": "YELLOW LOADS",
+        "part_num": "4LOADS",
+        "unit_cost": 0.163
+      },
+      {
+        "description": "SOLDER",
+        "part_num": "SOLD",
+        "unit_cost": 1.9024
+      },
+      {
+        "description": "BLACK TAPE",
+        "part_num": "P618B",
+        "unit_cost": 2.73
+      },
+      {
+        "description": "FRESH AIR CONTROL",
+        "part_num": "HW8150A1001",
+        "unit_cost": 52.228
+      },
+      {
+        "description": "R-22 REFRIGERANT",
+        "part_num": "R22",
+        "unit_cost": 56
+      },
+      {
+        "description": "R-410a REFRIGERANT",
+        "part_num": "R410",
+        "unit_cost": 19.25
+      },
+      {
+        "description": "LIQUID LINE DRIER",
+        "part_num": "163S",
+        "unit_cost": 7.181
+      },
+      {
+        "description": "HONEYWELL DAMPER MOTOR",
+        "part_num": "M847D1012",
+        "unit_cost": 87.4
+      },
+      {
+        "description": "WIRELESS SENSOR",
+        "part_num": "C7189R1004",
+        "unit_cost": 42.7
+      },
+      {
+        "description": "HARD START KIT",
+        "part_num": "HSK",
+        "unit_cost": 51.62
+      }
+    ],
+    "dehumidifiers": [
+      {
+        "description": "HONEYWELL DEHUMIDIFIER - 65 PINT",
+        "part_num": "DR65A3000",
+        "unit_cost": 881.664
+      },
+      {
+        "description": "HONEYWELL DEHUMIDIFIER - 100 PINT",
+        "part_num": "E100V",
+        "unit_cost": 1109.58
+      },
+      {
+        "description": "HONEYWELL DEHUMIDIFIER - 130 PINT",
+        "part_num": "E130",
+        "unit_cost": 1628.77
+      },
+      {
+        "description": "HONEYWELL 16\" 120V UV LIGHT",
+        "part_num": "UV100A1059",
+        "unit_cost": 180.322
+      }
+    ]
+  },
+  "equipment_catalog": {
+    "AMANA": {
+      "gas_furnace": [
+        {
+          "model": "ACEC800403AX",
+          "dealer_cost": 759.6
+        },
+        {
+          "model": "ACEC800603AX",
+          "dealer_cost": 799.2
+        },
+        {
+          "model": "ACEC800603BX",
+          "dealer_cost": 809.1
+        },
+        {
+          "model": "ACEC800804BX",
+          "dealer_cost": 883.8
+        },
+        {
+          "model": "ACEC800805CX",
+          "dealer_cost": 907.2
+        },
+        {
+          "model": "ACEC801005CX",
+          "dealer_cost": 982.8
+        },
+        {
+          "model": "ACES800403AN",
+          "dealer_cost": 499.1
+        },
+        {
+          "model": "ACES800403AX",
+          "dealer_cost": 504.7
+        },
+        {
+          "model": "ACES800603AN",
+          "dealer_cost": 531.3
+        },
+        {
+          "model": "ACES800603AX",
+          "dealer_cost": 535.5
+        },
+        {
+          "model": "ACES800804BX",
+          "dealer_cost": 613.2
+        },
+        {
+          "model": "ACES800805CX",
+          "dealer_cost": 638.4
+        },
+        {
+          "model": "ACES801005CX",
+          "dealer_cost": 697.9
+        },
+        {
+          "model": "ACES960403BN",
+          "dealer_cost": 1121.4
+        },
+        {
+          "model": "ACES960603BN",
+          "dealer_cost": 1160.1
+        },
+        {
+          "model": "ACES960804CN",
+          "dealer_cost": 1303.2
+        },
+        {
+          "model": "ACES961005CN",
+          "dealer_cost": 1515.6
+        },
+        {
+          "model": "ACES961205DN",
+          "dealer_cost": 1628.1
+        },
+        {
+          "model": "ACVC800603BX",
+          "dealer_cost": 1017.12
+        },
+        {
+          "model": "ACVC800803BX",
+          "dealer_cost": 1073.28
+        },
+        {
+          "model": "ACVC800805CX",
+          "dealer_cost": 1122.42
+        },
+        {
+          "model": "ACVC801005CX",
+          "dealer_cost": 1191.84
+        },
+        {
+          "model": "ACVC960403BN",
+          "dealer_cost": 1392.3
+        },
+        {
+          "model": "ACVC960603BN",
+          "dealer_cost": 1457.82
+        },
+        {
+          "model": "ACVC960804CN",
+          "dealer_cost": 1701.96
+        },
+        {
+          "model": "ACVC961005CN",
+          "dealer_cost": 1829.88
+        },
+        {
+          "model": "ACVC961205DN",
+          "dealer_cost": 1911.78
+        },
+        {
+          "model": "AMEC800403AN",
+          "dealer_cost": 736.2
+        },
+        {
+          "model": "AMEC800603BN",
+          "dealer_cost": 785.7
+        },
+        {
+          "model": "AMEC800603BX",
+          "dealer_cost": 785.7
+        },
+        {
+          "model": "AMEC800803BN",
+          "dealer_cost": 821.7
+        },
+        {
+          "model": "AMEC800803BX",
+          "dealer_cost": 821.7
+        },
+        {
+          "model": "AMEC800804BN",
+          "dealer_cost": 858.6
+        },
+        {
+          "model": "AMEC800804BX",
+          "dealer_cost": 858.6
+        },
+        {
+          "model": "AMEC800804CN",
+          "dealer_cost": 878.4
+        },
+        {
+          "model": "AMEC800804CX",
+          "dealer_cost": 878.4
+        },
+        {
+          "model": "AMEC800805CN",
+          "dealer_cost": 881.1
+        },
+        {
+          "model": "AMEC800805CX",
+          "dealer_cost": 881.1
+        },
+        {
+          "model": "AMEC800805DX",
+          "dealer_cost": 916.2
+        },
+        {
+          "model": "AMEC801005CN",
+          "dealer_cost": 953.1
+        },
+        {
+          "model": "AMEC801005CX",
+          "dealer_cost": 953.1
+        },
+        {
+          "model": "AMEC960302BN",
+          "dealer_cost": 938.34
+        },
+        {
+          "model": "AMEC960402BN",
+          "dealer_cost": 973.44
+        },
+        {
+          "model": "AMEC960603BN",
+          "dealer_cost": 1017.9
+        },
+        {
+          "model": "AMEC960803BN",
+          "dealer_cost": 1181.7
+        },
+        {
+          "model": "AMEC960804CN",
+          "dealer_cost": 1213.68
+        },
+        {
+          "model": "AMEC961004CN",
+          "dealer_cost": 1252.68
+        },
+        {
+          "model": "AMEC961205DN",
+          "dealer_cost": 1326
+        },
+        {
+          "model": "AMES800403AX",
+          "dealer_cost": 497
+        },
+        {
+          "model": "AMES800603AX",
+          "dealer_cost": 530.6
+        },
+        {
+          "model": "AMES800603BN",
+          "dealer_cost": 536.9
+        },
+        {
+          "model": "AMES800604BX",
+          "dealer_cost": 545.3
+        },
+        {
+          "model": "AMES800803BX",
+          "dealer_cost": 558.6
+        },
+        {
+          "model": "AMES800804BX",
+          "dealer_cost": 588
+        },
+        {
+          "model": "AMES800804CX",
+          "dealer_cost": 599.9
+        },
+        {
+          "model": "AMES800805CX",
+          "dealer_cost": 621.6
+        },
+        {
+          "model": "AMES801005CX",
+          "dealer_cost": 679
+        },
+        {
+          "model": "AMES801205DX",
+          "dealer_cost": 743.4
+        },
+        {
+          "model": "AMES920403AN",
+          "dealer_cost": 901.8
+        },
+        {
+          "model": "AMES920603BN",
+          "dealer_cost": 960.3
+        },
+        {
+          "model": "AMES920803BN",
+          "dealer_cost": 1044
+        },
+        {
+          "model": "AMES920804CN",
+          "dealer_cost": 1117.8
+        },
+        {
+          "model": "AMES920805CN",
+          "dealer_cost": 1167.3
+        },
+        {
+          "model": "AMES921004CN",
+          "dealer_cost": 1200.6
+        },
+        {
+          "model": "AMES921005CN",
+          "dealer_cost": 1246.5
+        },
+        {
+          "model": "AMES921205DN",
+          "dealer_cost": 1322.1
+        },
+        {
+          "model": "AMES960403AN",
+          "dealer_cost": 1073.7
+        },
+        {
+          "model": "AMES960603BN",
+          "dealer_cost": 1143
+        },
+        {
+          "model": "AMES960803BN",
+          "dealer_cost": 1204.2
+        },
+        {
+          "model": "AMES960804CN",
+          "dealer_cost": 1285.2
+        },
+        {
+          "model": "AMES960805CN",
+          "dealer_cost": 1371.6
+        },
+        {
+          "model": "AMES961005CN",
+          "dealer_cost": 1447.2
+        },
+        {
+          "model": "AMES961205DN",
+          "dealer_cost": 1519.2
+        },
+        {
+          "model": "AMVC800603BN",
+          "dealer_cost": 956.28
+        },
+        {
+          "model": "AMVC800603BX",
+          "dealer_cost": 956.28
+        },
+        {
+          "model": "AMVC800604BN",
+          "dealer_cost": 1018.68
+        },
+        {
+          "model": "AMVC800804CN",
+          "dealer_cost": 1066.26
+        },
+        {
+          "model": "AMVC800804CX",
+          "dealer_cost": 1066.26
+        },
+        {
+          "model": "AMVC800805CN",
+          "dealer_cost": 1089.66
+        },
+        {
+          "model": "AMVC800805CX",
+          "dealer_cost": 1089.66
+        },
+        {
+          "model": "AMVC800805DN",
+          "dealer_cost": 1102.92
+        },
+        {
+          "model": "AMVC800805DX",
+          "dealer_cost": 960.18
+        },
+        {
+          "model": "AMVC801005CN",
+          "dealer_cost": 1155.96
+        },
+        {
+          "model": "AMVC801005CX",
+          "dealer_cost": 1155.96
+        },
+        {
+          "model": "AMVC960403BN",
+          "dealer_cost": 1435.2
+        },
+        {
+          "model": "AMVC960603BN",
+          "dealer_cost": 1489.8
+        },
+        {
+          "model": "AMVC960804CN",
+          "dealer_cost": 1786.2
+        },
+        {
+          "model": "AMVC961005CN",
+          "dealer_cost": 1939.86
+        },
+        {
+          "model": "AMVC961205DN",
+          "dealer_cost": 2037.36
+        },
+        {
+          "model": "AMVM970603BN",
+          "dealer_cost": 1468.74
+        },
+        {
+          "model": "AMVM970803BN",
+          "dealer_cost": 1687.14
+        },
+        {
+          "model": "AMVM970804CN",
+          "dealer_cost": 1709.76
+        },
+        {
+          "model": "AMVM971005CN",
+          "dealer_cost": 1847.82
+        },
+        {
+          "model": "AMVM971205DN",
+          "dealer_cost": 1978.08
+        }
+      ],
+      "electric_furnace": [
+        {
+          "model": "ARUF25B14",
+          "dealer_cost": 450.72
+        },
+        {
+          "model": "ARUF29B14",
+          "dealer_cost": 468.72
+        },
+        {
+          "model": "ARUF31B14",
+          "dealer_cost": 511.2
+        },
+        {
+          "model": "ARUF37C14",
+          "dealer_cost": 555.84
+        },
+        {
+          "model": "ARUF37D14",
+          "dealer_cost": 578.16
+        },
+        {
+          "model": "ARUF43C14",
+          "dealer_cost": 582.48
+        },
+        {
+          "model": "ARUF43D14",
+          "dealer_cost": 626.4
+        },
+        {
+          "model": "ARUF47D14",
+          "dealer_cost": 679.68
+        },
+        {
+          "model": "ARUF49C14",
+          "dealer_cost": 724.32
+        },
+        {
+          "model": "ARUF49D14",
+          "dealer_cost": 740.88
+        },
+        {
+          "model": "ARUF61D14",
+          "dealer_cost": 771.12
+        },
+        {
+          "model": "ASPT25B14",
+          "dealer_cost": 656.64
+        },
+        {
+          "model": "ASPT29B14",
+          "dealer_cost": 713.52
+        },
+        {
+          "model": "ASPT33C14",
+          "dealer_cost": 719.28
+        },
+        {
+          "model": "ASPT35B14",
+          "dealer_cost": 683.28
+        },
+        {
+          "model": "ASPT37B14",
+          "dealer_cost": 728.64
+        },
+        {
+          "model": "ASPT37C14",
+          "dealer_cost": 745.2
+        },
+        {
+          "model": "ASPT39C14",
+          "dealer_cost": 745.2
+        },
+        {
+          "model": "ASPT47C14",
+          "dealer_cost": 771.12
+        },
+        {
+          "model": "ASPT47D14",
+          "dealer_cost": 879.84
+        },
+        {
+          "model": "ASPT49C14",
+          "dealer_cost": 793.44
+        },
+        {
+          "model": "ASPT49D14",
+          "dealer_cost": 897.12
+        },
+        {
+          "model": "ASPT59C14",
+          "dealer_cost": 861.12
+        },
+        {
+          "model": "ASPT61D14",
+          "dealer_cost": 899.28
+        },
+        {
+          "model": "AVPEC25B14",
+          "dealer_cost": 966.96
+        },
+        {
+          "model": "AVPEC37C14",
+          "dealer_cost": 1082.16
+        },
+        {
+          "model": "AVPEC59D14",
+          "dealer_cost": 1139.76
+        },
+        {
+          "model": "AVPEC61D14",
+          "dealer_cost": 1193.76
+        },
+        {
+          "model": "AVPTC25B14",
+          "dealer_cost": 774.72
+        },
+        {
+          "model": "AVPTC29B14",
+          "dealer_cost": 851.76
+        },
+        {
+          "model": "AVPTC31C14",
+          "dealer_cost": 861.12
+        },
+        {
+          "model": "AVPTC33C14",
+          "dealer_cost": 861.84
+        },
+        {
+          "model": "AVPTC37B14",
+          "dealer_cost": 882
+        },
+        {
+          "model": "AVPTC37C14",
+          "dealer_cost": 901.44
+        },
+        {
+          "model": "AVPTC37D14",
+          "dealer_cost": 920.88
+        },
+        {
+          "model": "AVPTC39C14",
+          "dealer_cost": 901.44
+        },
+        {
+          "model": "AVPTC49C14",
+          "dealer_cost": 990.72
+        },
+        {
+          "model": "AVPTC49D14",
+          "dealer_cost": 1046.88
+        },
+        {
+          "model": "AVPTC59C14",
+          "dealer_cost": 1042.56
+        },
+        {
+          "model": "AVPTC59D14",
+          "dealer_cost": 1051.92
+        },
+        {
+          "model": "AVPTC61D14",
+          "dealer_cost": 1063.44
+        }
+      ],
+      "condenser": [
+        {
+          "model": "ASX140181",
+          "dealer_cost": 883.14
+        },
+        {
+          "model": "ASX140241",
+          "dealer_cost": 952.02
+        },
+        {
+          "model": "ASX140251",
+          "dealer_cost": 998.76
+        },
+        {
+          "model": "ASX140301",
+          "dealer_cost": 993.02
+        },
+        {
+          "model": "ASX140311",
+          "dealer_cost": 1043.86
+        },
+        {
+          "model": "ASX140361",
+          "dealer_cost": 1116.84
+        },
+        {
+          "model": "ASX140421",
+          "dealer_cost": 1262.8
+        },
+        {
+          "model": "ASX140431",
+          "dealer_cost": 1325.94
+        },
+        {
+          "model": "ASX140481",
+          "dealer_cost": 1367.76
+        },
+        {
+          "model": "ASX140601",
+          "dealer_cost": 1562.1
+        },
+        {
+          "model": "ASX160181",
+          "dealer_cost": 979.44
+        },
+        {
+          "model": "ASX160241",
+          "dealer_cost": 1021.02
+        },
+        {
+          "model": "ASX160311",
+          "dealer_cost": 1102.64
+        },
+        {
+          "model": "ASX160361",
+          "dealer_cost": 1083.39
+        },
+        {
+          "model": "ASX160371",
+          "dealer_cost": 1195.04
+        },
+        {
+          "model": "ASX160421",
+          "dealer_cost": 1272.81
+        },
+        {
+          "model": "ASX160481",
+          "dealer_cost": 1379.07
+        },
+        {
+          "model": "ASX160601",
+          "dealer_cost": 1700.93
+        },
+        {
+          "model": "ASXC160241",
+          "dealer_cost": 1557.09
+        },
+        {
+          "model": "ASXC160361",
+          "dealer_cost": 1750.64
+        },
+        {
+          "model": "ASXC160481",
+          "dealer_cost": 2064.27
+        },
+        {
+          "model": "ASXC160601",
+          "dealer_cost": 2426.88
+        },
+        {
+          "model": "ASXC180241",
+          "dealer_cost": 1836.85
+        },
+        {
+          "model": "ASXC180361",
+          "dealer_cost": 2065.5
+        },
+        {
+          "model": "ASXC180481",
+          "dealer_cost": 2435.25
+        },
+        {
+          "model": "ASXC180601",
+          "dealer_cost": 2863.65
+        },
+        {
+          "model": "ASZ140181",
+          "dealer_cost": 1284.3
+        },
+        {
+          "model": "ASZ140241",
+          "dealer_cost": 1287.9
+        },
+        {
+          "model": "ASZ140301",
+          "dealer_cost": 1424.7
+        },
+        {
+          "model": "ASZ140361",
+          "dealer_cost": 1563.3
+        },
+        {
+          "model": "ASZ140421",
+          "dealer_cost": 1639.8
+        },
+        {
+          "model": "ASZ140481",
+          "dealer_cost": 1877.4
+        },
+        {
+          "model": "ASZ140601",
+          "dealer_cost": 2179.8
+        },
+        {
+          "model": "ASZ160181",
+          "dealer_cost": 1532.7
+        },
+        {
+          "model": "ASZ160241",
+          "dealer_cost": 1587.6
+        },
+        {
+          "model": "ASZ160301",
+          "dealer_cost": 1171.2
+        },
+        {
+          "model": "ASZ160361",
+          "dealer_cost": 1972.8
+        },
+        {
+          "model": "ASZ160421",
+          "dealer_cost": 2127.6
+        },
+        {
+          "model": "ASZ160481",
+          "dealer_cost": 2334.6
+        },
+        {
+          "model": "ASZ160601",
+          "dealer_cost": 2794.5
+        },
+        {
+          "model": "ASZC160241",
+          "dealer_cost": 1916.46
+        },
+        {
+          "model": "ASZC160361",
+          "dealer_cost": 2295.93
+        },
+        {
+          "model": "ASZC160481",
+          "dealer_cost": 2735.46
+        },
+        {
+          "model": "ASZC160601",
+          "dealer_cost": 3167.71
+        },
+        {
+          "model": "ASZC180241",
+          "dealer_cost": 2386.98
+        },
+        {
+          "model": "ASZC180361",
+          "dealer_cost": 2711.83
+        },
+        {
+          "model": "ASZC180481",
+          "dealer_cost": 3257.4
+        },
+        {
+          "model": "ASZC180601",
+          "dealer_cost": 3706.85
+        },
+        {
+          "model": "AVXC200241",
+          "dealer_cost": 3708
+        },
+        {
+          "model": "AVXC200361",
+          "dealer_cost": 3947.4
+        },
+        {
+          "model": "AVXC200481",
+          "dealer_cost": 4343.4
+        },
+        {
+          "model": "AVXC200601",
+          "dealer_cost": 4787.1
+        },
+        {
+          "model": "AVZC180241",
+          "dealer_cost": 2378.7
+        },
+        {
+          "model": "AVZC180361",
+          "dealer_cost": 2563.2
+        },
+        {
+          "model": "AVZC180481",
+          "dealer_cost": 3076.2
+        },
+        {
+          "model": "AVZC180601",
+          "dealer_cost": 3502.8
+        },
+        {
+          "model": "AVZC200241",
+          "dealer_cost": 4379.4
+        },
+        {
+          "model": "AVZC200361",
+          "dealer_cost": 4546.8
+        },
+        {
+          "model": "AVZC200481",
+          "dealer_cost": 5086.8
+        },
+        {
+          "model": "AVZC200601",
+          "dealer_cost": 5534.1
+        }
+      ],
+      "heat_strip_txv": [
+        {
+          "model": "HKSC05XC",
+          "dealer_cost": 55.44
+        },
+        {
+          "model": "HKSC08XC",
+          "dealer_cost": 70.56
+        },
+        {
+          "model": "HKSC10XC",
+          "dealer_cost": 74.16
+        },
+        {
+          "model": "HKSC15XB",
+          "dealer_cost": 127.44
+        },
+        {
+          "model": "HKSC20DB",
+          "dealer_cost": 135.36
+        },
+        {
+          "model": "TX2N4A",
+          "dealer_cost": 58
+        },
+        {
+          "model": "TX3N4",
+          "dealer_cost": 56
+        },
+        {
+          "model": "TX5N4",
+          "dealer_cost": 56
+        },
+        {
+          "model": "TXV-V24",
+          "dealer_cost": 88.71
+        },
+        {
+          "model": "TXV-V36",
+          "dealer_cost": 88.71
+        },
+        {
+          "model": "TXV-V48",
+          "dealer_cost": 88.71
+        },
+        {
+          "model": "TXV-V60",
+          "dealer_cost": 88.71
+        }
+      ]
+    },
+    "CARRIER": {
+      "gas_furnace": [
+        {
+          "model": "58PHB045---1--12",
+          "dealer_cost": 501
+        },
+        {
+          "model": "58PHB070---1--16",
+          "dealer_cost": 540
+        },
+        {
+          "model": "58PHB090---1--16",
+          "dealer_cost": 540
+        },
+        {
+          "model": "58PHB110---1--20",
+          "dealer_cost": 570
+        },
+        {
+          "model": "58STA045---1--12",
+          "dealer_cost": 389
+        },
+        {
+          "model": "58STA070---1--12",
+          "dealer_cost": 405
+        },
+        {
+          "model": "58STA090---1--16",
+          "dealer_cost": 429
+        },
+        {
+          "model": "58STA110---1--22",
+          "dealer_cost": 462
+        }
+      ],
+      "condenser": [
+        {
+          "model": "CA16NA01800G",
+          "dealer_cost": 772
+        },
+        {
+          "model": "CA16NA02400G",
+          "dealer_cost": 815
+        },
+        {
+          "model": "CA16NA03000G",
+          "dealer_cost": 888
+        },
+        {
+          "model": "CA16NA03600G",
+          "dealer_cost": 982
+        },
+        {
+          "model": "CA16NA04200G",
+          "dealer_cost": 1023
+        },
+        {
+          "model": "CA16NA04800G",
+          "dealer_cost": 1121
+        },
+        {
+          "model": "CA16NA06000G",
+          "dealer_cost": 1321
+        }
+      ],
+      "evap_coil": [
+        {
+          "model": "CNPHP2417ALA",
+          "dealer_cost": 255
+        },
+        {
+          "model": "CNPHP3017ALA",
+          "dealer_cost": 264
+        },
+        {
+          "model": "CNPHP3117ALA",
+          "dealer_cost": 354
+        },
+        {
+          "model": "CNPHP3617ALA",
+          "dealer_cost": 487
+        },
+        {
+          "model": "CNPHP4321ALA",
+          "dealer_cost": 396
+        },
+        {
+          "model": "CNPHP4821ALA",
+          "dealer_cost": 567
+        },
+        {
+          "model": "CNPHP6024ALA",
+          "dealer_cost": 373
+        },
+        {
+          "model": "CNPHP6124ALA",
+          "dealer_cost": 441
+        }
+      ]
+    },
+    "GOODMAN": {
+      "electric_furnace": [
+        {
+          "model": "ACNF180016",
+          "dealer_cost": 312
+        },
+        {
+          "model": "ACNF180516",
+          "dealer_cost": 344
+        },
+        {
+          "model": "ACNF180816",
+          "dealer_cost": 358
+        },
+        {
+          "model": "ACNF240016",
+          "dealer_cost": 365
+        },
+        {
+          "model": "ACNF240516",
+          "dealer_cost": 392
+        },
+        {
+          "model": "ACNF240616",
+          "dealer_cost": 424
+        },
+        {
+          "model": "ACNF240816",
+          "dealer_cost": 412
+        },
+        {
+          "model": "ACNF250016",
+          "dealer_cost": 389
+        },
+        {
+          "model": "ACNF250516",
+          "dealer_cost": 430
+        },
+        {
+          "model": "ACNF250616",
+          "dealer_cost": 465
+        },
+        {
+          "model": "ACNF250816",
+          "dealer_cost": 450
+        },
+        {
+          "model": "ACNF251016",
+          "dealer_cost": 452
+        },
+        {
+          "model": "ACNF300516",
+          "dealer_cost": 413
+        },
+        {
+          "model": "ACNF300816",
+          "dealer_cost": 434
+        },
+        {
+          "model": "ACNF301016",
+          "dealer_cost": 444
+        },
+        {
+          "model": "ACNF310016",
+          "dealer_cost": 408
+        },
+        {
+          "model": "ACNF310516",
+          "dealer_cost": 451
+        },
+        {
+          "model": "ACNF310616",
+          "dealer_cost": 490
+        },
+        {
+          "model": "ACNF310816",
+          "dealer_cost": 473
+        },
+        {
+          "model": "ACNF311016",
+          "dealer_cost": 483
+        },
+        {
+          "model": "ARUF25B14",
+          "dealer_cost": 347
+        },
+        {
+          "model": "ARUF29B14",
+          "dealer_cost": 360
+        },
+        {
+          "model": "ARUF31B14",
+          "dealer_cost": 406
+        },
+        {
+          "model": "ARUF37C14",
+          "dealer_cost": 444
+        },
+        {
+          "model": "ARUF37D14",
+          "dealer_cost": 462
+        },
+        {
+          "model": "ARUF43C14",
+          "dealer_cost": 717
+        },
+        {
+          "model": "ARUF43D14",
+          "dealer_cost": 519
+        },
+        {
+          "model": "ARUF47D14",
+          "dealer_cost": 564
+        },
+        {
+          "model": "ARUF49C14",
+          "dealer_cost": 580
+        },
+        {
+          "model": "ARUF49D14",
+          "dealer_cost": 593
+        },
+        {
+          "model": "ARUF61D14",
+          "dealer_cost": 623
+        },
+        {
+          "model": "ASPT25B14",
+          "dealer_cost": 691
+        },
+        {
+          "model": "ASPT29B14",
+          "dealer_cost": 752
+        },
+        {
+          "model": "ASPT37B14",
+          "dealer_cost": 767
+        },
+        {
+          "model": "ASPT37C14",
+          "dealer_cost": 781
+        },
+        {
+          "model": "ASPT47C14",
+          "dealer_cost": 814
+        },
+        {
+          "model": "ASPT47D14",
+          "dealer_cost": 925
+        },
+        {
+          "model": "ASPT49D14",
+          "dealer_cost": 905
+        },
+        {
+          "model": "ASPT59C14",
+          "dealer_cost": 870
+        },
+        {
+          "model": "ASPT61D14",
+          "dealer_cost": 911
+        },
+        {
+          "model": "AVPEC25B14",
+          "dealer_cost": 1188
+        },
+        {
+          "model": "AVPEC37C14",
+          "dealer_cost": 1327
+        },
+        {
+          "model": "AVPEC59D14",
+          "dealer_cost": 1395
+        },
+        {
+          "model": "AVPEC61D14",
+          "dealer_cost": 1462
+        },
+        {
+          "model": "AVPTC25B14",
+          "dealer_cost": 713
+        },
+        {
+          "model": "AVPTC29B14",
+          "dealer_cost": 787
+        },
+        {
+          "model": "AVPTC31C14",
+          "dealer_cost": 793
+        },
+        {
+          "model": "AVPTC37C14",
+          "dealer_cost": 832
+        },
+        {
+          "model": "AVPTC49C14",
+          "dealer_cost": 936
+        },
+        {
+          "model": "AVPTC49D14",
+          "dealer_cost": 966
+        },
+        {
+          "model": "AVPTC59C14",
+          "dealer_cost": 963
+        },
+        {
+          "model": "AVPTC61D14",
+          "dealer_cost": 982
+        },
+        {
+          "model": "AWUF180316",
+          "dealer_cost": 343
+        },
+        {
+          "model": "AWUF180516",
+          "dealer_cost": 343
+        },
+        {
+          "model": "AWUF180816",
+          "dealer_cost": 349
+        },
+        {
+          "model": "AWUF190316",
+          "dealer_cost": 422
+        },
+        {
+          "model": "AWUF190516",
+          "dealer_cost": 424
+        },
+        {
+          "model": "AWUF190816",
+          "dealer_cost": 451
+        },
+        {
+          "model": "AWUF240316",
+          "dealer_cost": 358
+        },
+        {
+          "model": "AWUF240516",
+          "dealer_cost": 358
+        },
+        {
+          "model": "AWUF240816",
+          "dealer_cost": 368
+        },
+        {
+          "model": "AWUF241016",
+          "dealer_cost": 378
+        },
+        {
+          "model": "AWUF250316",
+          "dealer_cost": 440
+        },
+        {
+          "model": "AWUF250516",
+          "dealer_cost": 443
+        },
+        {
+          "model": "AWUF250816",
+          "dealer_cost": 463
+        },
+        {
+          "model": "AWUF251016",
+          "dealer_cost": 469
+        },
+        {
+          "model": "AWUF300316",
+          "dealer_cost": 369
+        },
+        {
+          "model": "AWUF300516",
+          "dealer_cost": 409
+        },
+        {
+          "model": "AWUF300816",
+          "dealer_cost": 420
+        },
+        {
+          "model": "AWUF301016",
+          "dealer_cost": 429
+        },
+        {
+          "model": "AWUF310516",
+          "dealer_cost": 531
+        },
+        {
+          "model": "AWUF310816",
+          "dealer_cost": 557
+        },
+        {
+          "model": "AWUF321016",
+          "dealer_cost": 618
+        },
+        {
+          "model": "AWUF360516",
+          "dealer_cost": 412
+        },
+        {
+          "model": "AWUF360816",
+          "dealer_cost": 431
+        },
+        {
+          "model": "AWUF361016",
+          "dealer_cost": 434
+        },
+        {
+          "model": "AWUF370516",
+          "dealer_cost": 544
+        },
+        {
+          "model": "AWUF370816",
+          "dealer_cost": 571
+        },
+        {
+          "model": "AWUF371016",
+          "dealer_cost": 578
+        }
+      ],
+      "evap_coil": [
+        {
+          "model": "CAPTA2422B3",
+          "dealer_cost": 256
+        },
+        {
+          "model": "CAPTA3026B3",
+          "dealer_cost": 301
+        },
+        {
+          "model": "CAPTA3626B3",
+          "dealer_cost": 310
+        },
+        {
+          "model": "CAPTA4230C3",
+          "dealer_cost": 309
+        },
+        {
+          "model": "CAPTA6030C3",
+          "dealer_cost": 364
+        },
+        {
+          "model": "CHPTA2426B3",
+          "dealer_cost": 305
+        },
+        {
+          "model": "CHPTA3026B3",
+          "dealer_cost": 324
+        },
+        {
+          "model": "CHPTA3630B3",
+          "dealer_cost": 340
+        },
+        {
+          "model": "CHPTA4230C3",
+          "dealer_cost": 314
+        },
+        {
+          "model": "CHPTA6030D3",
+          "dealer_cost": 334
+        }
+      ],
+      "gas_furnace": [
+        {
+          "model": "GCEC800403AX",
+          "dealer_cost": 465
+        },
+        {
+          "model": "GCEC800603AX",
+          "dealer_cost": 495
+        },
+        {
+          "model": "GCEC800603BX",
+          "dealer_cost": 501
+        },
+        {
+          "model": "GCEC800804BX",
+          "dealer_cost": 545
+        },
+        {
+          "model": "GCEC800805CX",
+          "dealer_cost": 559
+        },
+        {
+          "model": "GCEC801005CX",
+          "dealer_cost": 594
+        },
+        {
+          "model": "GCEC960403BN",
+          "dealer_cost": 1142
+        },
+        {
+          "model": "GCEC960603BN",
+          "dealer_cost": 1218
+        },
+        {
+          "model": "GCEC960803BN",
+          "dealer_cost": 1428
+        },
+        {
+          "model": "GCEC961005CN",
+          "dealer_cost": 1484
+        },
+        {
+          "model": "GCES800403AN",
+          "dealer_cost": 628
+        },
+        {
+          "model": "GCES800603AN",
+          "dealer_cost": 722
+        },
+        {
+          "model": "GCES800804BN",
+          "dealer_cost": 836
+        },
+        {
+          "model": "GCES800805CX",
+          "dealer_cost": 881
+        },
+        {
+          "model": "GCES801005CN",
+          "dealer_cost": 823
+        },
+        {
+          "model": "GCES960403BN",
+          "dealer_cost": 1112
+        },
+        {
+          "model": "GCES960603BN",
+          "dealer_cost": 1151
+        },
+        {
+          "model": "GCES960804CN",
+          "dealer_cost": 1377
+        },
+        {
+          "model": "GCES961005CN",
+          "dealer_cost": 1470
+        },
+        {
+          "model": "GCES961205DN",
+          "dealer_cost": 1710
+        },
+        {
+          "model": "GCVC800603BX",
+          "dealer_cost": 986
+        },
+        {
+          "model": "GCVC800803BX",
+          "dealer_cost": 1047
+        },
+        {
+          "model": "GCVC800805CX",
+          "dealer_cost": 1140
+        },
+        {
+          "model": "GCVC801005CX",
+          "dealer_cost": 1182
+        },
+        {
+          "model": "GCVC960403BN",
+          "dealer_cost": 1491
+        },
+        {
+          "model": "GCVC960603BN",
+          "dealer_cost": 1542
+        },
+        {
+          "model": "GCVC960804CN",
+          "dealer_cost": 1721
+        },
+        {
+          "model": "GCVC961005CN",
+          "dealer_cost": 1882
+        },
+        {
+          "model": "GCVC961205DN",
+          "dealer_cost": 2015
+        },
+        {
+          "model": "GCVM970603BN",
+          "dealer_cost": 1815
+        },
+        {
+          "model": "GCVM970803BN",
+          "dealer_cost": 2011
+        },
+        {
+          "model": "GCVM970804CN",
+          "dealer_cost": 2037
+        },
+        {
+          "model": "GCVM971005CN",
+          "dealer_cost": 2127
+        },
+        {
+          "model": "GMEC800403AN",
+          "dealer_cost": 452
+        },
+        {
+          "model": "GMEC800603AN",
+          "dealer_cost": 481
+        },
+        {
+          "model": "GMEC800603BN",
+          "dealer_cost": 486
+        },
+        {
+          "model": "GMEC800803BN",
+          "dealer_cost": 504
+        },
+        {
+          "model": "GMEC800804BN",
+          "dealer_cost": 530
+        },
+        {
+          "model": "GMEC800804CN",
+          "dealer_cost": 537
+        },
+        {
+          "model": "GMEC800805CN",
+          "dealer_cost": 542
+        },
+        {
+          "model": "GMEC801004CN",
+          "dealer_cost": 563
+        },
+        {
+          "model": "GMEC801005CN",
+          "dealer_cost": 578
+        },
+        {
+          "model": "GMEC801205DN",
+          "dealer_cost": 656
+        },
+        {
+          "model": "GMEC960303AN",
+          "dealer_cost": 989
+        },
+        {
+          "model": "GMEC960403AN",
+          "dealer_cost": 1027
+        },
+        {
+          "model": "GMEC960603AN",
+          "dealer_cost": 1115
+        },
+        {
+          "model": "GMEC960603BN",
+          "dealer_cost": 1127
+        },
+        {
+          "model": "GMEC960803BN",
+          "dealer_cost": 1306
+        },
+        {
+          "model": "GMEC960804CN",
+          "dealer_cost": 1352
+        },
+        {
+          "model": "GMEC961004CN",
+          "dealer_cost": 1392
+        },
+        {
+          "model": "GMEC961005CN",
+          "dealer_cost": 1439
+        },
+        {
+          "model": "GMEC961205DN",
+          "dealer_cost": 1476
+        },
+        {
+          "model": "GMES920403AN",
+          "dealer_cost": 747
+        },
+        {
+          "model": "GMES920603BN",
+          "dealer_cost": 781
+        },
+        {
+          "model": "GMES920803BN",
+          "dealer_cost": 891
+        },
+        {
+          "model": "GMES920804CN",
+          "dealer_cost": 940
+        },
+        {
+          "model": "GMES920805CN",
+          "dealer_cost": 989
+        },
+        {
+          "model": "GMES921004CN",
+          "dealer_cost": 1033
+        },
+        {
+          "model": "GMES921005CN",
+          "dealer_cost": 1043
+        },
+        {
+          "model": "GMES921205DN",
+          "dealer_cost": 1110
+        },
+        {
+          "model": "GMES960403AN",
+          "dealer_cost": 889
+        },
+        {
+          "model": "GMES960603BN",
+          "dealer_cost": 933
+        },
+        {
+          "model": "GMES960803BN",
+          "dealer_cost": 1058
+        },
+        {
+          "model": "GMES960804CN",
+          "dealer_cost": 1126
+        },
+        {
+          "model": "GMES960805CN",
+          "dealer_cost": 1178
+        },
+        {
+          "model": "GMES961005CN",
+          "dealer_cost": 1241
+        },
+        {
+          "model": "GMES961205DN",
+          "dealer_cost": 1317
+        },
+        {
+          "model": "GMVC800603BN",
+          "dealer_cost": 869
+        },
+        {
+          "model": "GMVC800604BN",
+          "dealer_cost": 950
+        },
+        {
+          "model": "GMVC800803BN",
+          "dealer_cost": 912
+        },
+        {
+          "model": "GMVC800804CN",
+          "dealer_cost": 937
+        },
+        {
+          "model": "GMVC800805CN",
+          "dealer_cost": 991
+        },
+        {
+          "model": "GMVC800805DN",
+          "dealer_cost": 1023
+        },
+        {
+          "model": "GMVC801005CN",
+          "dealer_cost": 1020
+        },
+        {
+          "model": "GMVC960403BN",
+          "dealer_cost": 1122
+        },
+        {
+          "model": "GMVC960603BN",
+          "dealer_cost": 1234
+        },
+        {
+          "model": "GMVC960803BN",
+          "dealer_cost": 1355
+        },
+        {
+          "model": "GMVC960804CN",
+          "dealer_cost": 1371
+        },
+        {
+          "model": "GMVC961005CN",
+          "dealer_cost": 1422
+        },
+        {
+          "model": "GMVC961205DN",
+          "dealer_cost": 1480
+        },
+        {
+          "model": "GMVM970603BN",
+          "dealer_cost": 1433
+        },
+        {
+          "model": "GMVM970803BN",
+          "dealer_cost": 1650
+        },
+        {
+          "model": "GMVM970804CN",
+          "dealer_cost": 1673
+        },
+        {
+          "model": "GMVM971005CN",
+          "dealer_cost": 1807
+        },
+        {
+          "model": "GMVM971205DN",
+          "dealer_cost": 1948
+        },
+        {
+          "model": "GR9S800603BN",
+          "dealer_cost": 493
+        },
+        {
+          "model": "GR9S800804CN",
+          "dealer_cost": 548
+        },
+        {
+          "model": "GR9S800805CN",
+          "dealer_cost": 547
+        },
+        {
+          "model": "GR9S801005CN",
+          "dealer_cost": 547
+        }
+      ],
+      "condenser": [
+        {
+          "model": "GLXS5BA1810A",
+          "dealer_cost": 817
+        },
+        {
+          "model": "GLXS5BA2410A",
+          "dealer_cost": 848
+        },
+        {
+          "model": "GLXS5BA3010A",
+          "dealer_cost": 891
+        },
+        {
+          "model": "GLXS5BA3610A",
+          "dealer_cost": 1041
+        },
+        {
+          "model": "GLXS5BA4210A",
+          "dealer_cost": 1196
+        },
+        {
+          "model": "GLXS5BA4810A",
+          "dealer_cost": 1304
+        },
+        {
+          "model": "GLXS5BA6010A",
+          "dealer_cost": 1460
+        }
+      ],
+      "heat_strip_txv": [
+        {
+          "model": "HKSC05XC",
+          "dealer_cost": 40
+        },
+        {
+          "model": "HKSC08XC",
+          "dealer_cost": 50
+        },
+        {
+          "model": "HKSC10XC",
+          "dealer_cost": 55
+        },
+        {
+          "model": "HKSC15XB",
+          "dealer_cost": 88
+        },
+        {
+          "model": "HKSC15XF",
+          "dealer_cost": 229
+        },
+        {
+          "model": "HKSC20DB",
+          "dealer_cost": 132
+        },
+        {
+          "model": "HKSC20XF",
+          "dealer_cost": 249
+        },
+        {
+          "model": "TX2N4A",
+          "dealer_cost": 53
+        },
+        {
+          "model": "TX3N4",
+          "dealer_cost": 53
+        },
+        {
+          "model": "TX5N4",
+          "dealer_cost": 53
+        }
+      ]
+    },
+    "LENNOX": {
+      "heat_strip_txv": [
+        {
+          "model": "104110-01",
+          "dealer_cost": 30
+        },
+        {
+          "model": "104110-02",
+          "dealer_cost": 30
+        },
+        {
+          "model": "104110-03",
+          "dealer_cost": 33
+        },
+        {
+          "model": "ECB29-10CB-8P",
+          "dealer_cost": 71
+        },
+        {
+          "model": "ECB29-15CB-8P",
+          "dealer_cost": 134
+        },
+        {
+          "model": "ECB45-10CB",
+          "dealer_cost": 80.58
+        },
+        {
+          "model": "ECB45-15CB",
+          "dealer_cost": 142
+        },
+        {
+          "model": "ECB45-20CB",
+          "dealer_cost": 188
+        },
+        {
+          "model": "ECB45-5CB",
+          "dealer_cost": 58.98
+        },
+        {
+          "model": "ECB45-7.5CB",
+          "dealer_cost": 93.45
+        },
+        {
+          "model": "ECBA25-10CB",
+          "dealer_cost": 75
+        },
+        {
+          "model": "ECBA25-15CB",
+          "dealer_cost": 101
+        },
+        {
+          "model": "ECBA25-5CB",
+          "dealer_cost": 57
+        }
+      ],
+      "electric_furnace": [
+        {
+          "model": "CBA25UH-018",
+          "dealer_cost": 467
+        },
+        {
+          "model": "CBA25UH-024",
+          "dealer_cost": 483
+        },
+        {
+          "model": "CBA25UH-030",
+          "dealer_cost": 522
+        },
+        {
+          "model": "CBA25UH-036",
+          "dealer_cost": 555
+        },
+        {
+          "model": "CBA25UH-042",
+          "dealer_cost": 611
+        },
+        {
+          "model": "CBA25UH-048",
+          "dealer_cost": 694
+        },
+        {
+          "model": "CBA25UH-060",
+          "dealer_cost": 805
+        },
+        {
+          "model": "CBA25UHV-024",
+          "dealer_cost": 623
+        },
+        {
+          "model": "CBA25UHV-036",
+          "dealer_cost": 716
+        },
+        {
+          "model": "CBA25UHV-048",
+          "dealer_cost": 895
+        },
+        {
+          "model": "CBA25UHV-060",
+          "dealer_cost": 1039
+        },
+        {
+          "model": "CBK45UHET-024",
+          "dealer_cost": 807
+        },
+        {
+          "model": "CBK45UHET-030",
+          "dealer_cost": 853
+        },
+        {
+          "model": "CBK45UHET-036",
+          "dealer_cost": 893
+        },
+        {
+          "model": "CBK45UHET-042",
+          "dealer_cost": 958
+        },
+        {
+          "model": "CBK45UHET-048",
+          "dealer_cost": 968
+        },
+        {
+          "model": "CBK45UHET-060",
+          "dealer_cost": 1085
+        },
+        {
+          "model": "CBK45UHVT-018",
+          "dealer_cost": 870
+        },
+        {
+          "model": "CBK45UHVT-024",
+          "dealer_cost": 894
+        },
+        {
+          "model": "CBK45UHVT-030",
+          "dealer_cost": 946
+        },
+        {
+          "model": "CBK45UHVT-036",
+          "dealer_cost": 991
+        },
+        {
+          "model": "CBK45UHVT-042",
+          "dealer_cost": 1067
+        },
+        {
+          "model": "CBK45UHVT-048",
+          "dealer_cost": 1179
+        },
+        {
+          "model": "CBK45UHVT-060",
+          "dealer_cost": 1329
+        }
+      ],
+      "evap_coil": [
+        {
+          "model": "CK40CT-18/24A",
+          "dealer_cost": 192
+        },
+        {
+          "model": "CK40CT-18/24B",
+          "dealer_cost": 196
+        },
+        {
+          "model": "CK40CT-24A",
+          "dealer_cost": 234
+        },
+        {
+          "model": "CK40CT-24B",
+          "dealer_cost": 238
+        },
+        {
+          "model": "CK40CT-30/36A",
+          "dealer_cost": 271
+        },
+        {
+          "model": "CK40CT-30/36B",
+          "dealer_cost": 276
+        },
+        {
+          "model": "CK40CT-30/36C",
+          "dealer_cost": 281
+        },
+        {
+          "model": "CK40CT-30A",
+          "dealer_cost": 260
+        },
+        {
+          "model": "CK40CT-30B",
+          "dealer_cost": 265
+        },
+        {
+          "model": "CK40CT-36A",
+          "dealer_cost": 290
+        },
+        {
+          "model": "CK40CT-36B",
+          "dealer_cost": 295
+        },
+        {
+          "model": "CK40CT-48B",
+          "dealer_cost": 322
+        },
+        {
+          "model": "CK40CT-48C",
+          "dealer_cost": 336
+        },
+        {
+          "model": "CK40CT-49C",
+          "dealer_cost": 417
+        },
+        {
+          "model": "CK40CT-50/60C",
+          "dealer_cost": 401
+        },
+        {
+          "model": "CK40CT-60C",
+          "dealer_cost": 429
+        },
+        {
+          "model": "CK40CT-60D",
+          "dealer_cost": 437
+        },
+        {
+          "model": "CK40HT-18A",
+          "dealer_cost": 351
+        },
+        {
+          "model": "CK40HT-24A",
+          "dealer_cost": 375
+        },
+        {
+          "model": "CK40HT-24B",
+          "dealer_cost": 368
+        },
+        {
+          "model": "CK40HT-30A",
+          "dealer_cost": 419
+        },
+        {
+          "model": "CK40HT-30B",
+          "dealer_cost": 448
+        },
+        {
+          "model": "CK40HT-36A",
+          "dealer_cost": 392
+        },
+        {
+          "model": "CK40HT-36B",
+          "dealer_cost": 400
+        },
+        {
+          "model": "CK40HT-36C",
+          "dealer_cost": 405
+        },
+        {
+          "model": "CK40HT-42B",
+          "dealer_cost": 505
+        },
+        {
+          "model": "CK40HT-42C",
+          "dealer_cost": 513
+        },
+        {
+          "model": "CK40HT-48B",
+          "dealer_cost": 468
+        },
+        {
+          "model": "CK40HT-48C",
+          "dealer_cost": 481
+        },
+        {
+          "model": "CK40HT-51/61C",
+          "dealer_cost": 533
+        },
+        {
+          "model": "CK40HT-60D",
+          "dealer_cost": 535
+        }
+      ],
+      "condenser": [
+        {
+          "model": "ML14KC1-018",
+          "dealer_cost": 920
+        },
+        {
+          "model": "ML14KC1-024",
+          "dealer_cost": 950
+        },
+        {
+          "model": "ML14KC1-030",
+          "dealer_cost": 991
+        },
+        {
+          "model": "ML14KC1-036",
+          "dealer_cost": 1022
+        },
+        {
+          "model": "ML14KC1-041",
+          "dealer_cost": 1225
+        },
+        {
+          "model": "ML14KC1-042",
+          "dealer_cost": 1125
+        },
+        {
+          "model": "ML14KC1-047",
+          "dealer_cost": 1380
+        },
+        {
+          "model": "ML14KC1-048",
+          "dealer_cost": 1278
+        },
+        {
+          "model": "ML14KC1-059",
+          "dealer_cost": 1584
+        },
+        {
+          "model": "ML14KC1-060",
+          "dealer_cost": 1482
+        },
+        {
+          "model": "ML17KC2-024",
+          "dealer_cost": 1330
+        },
+        {
+          "model": "ML17KC2-036",
+          "dealer_cost": 1431
+        },
+        {
+          "model": "ML17KC2-048",
+          "dealer_cost": 1788
+        },
+        {
+          "model": "ML17KC2-060",
+          "dealer_cost": 2075
+        },
+        {
+          "model": "ML17XP1-018",
+          "dealer_cost": 952
+        },
+        {
+          "model": "ML17XP1-024",
+          "dealer_cost": 1088
+        },
+        {
+          "model": "ML17XP1-030",
+          "dealer_cost": 1103
+        },
+        {
+          "model": "ML17XP1-036",
+          "dealer_cost": 1171
+        },
+        {
+          "model": "ML17XP1-042",
+          "dealer_cost": 1248
+        },
+        {
+          "model": "ML17XP1-048",
+          "dealer_cost": 1315
+        },
+        {
+          "model": "ML17XP1-060",
+          "dealer_cost": 1616
+        },
+        {
+          "model": "SL25KCV-024",
+          "dealer_cost": 3554
+        },
+        {
+          "model": "SL25KCV-036",
+          "dealer_cost": 3596
+        },
+        {
+          "model": "SL25KCV-048",
+          "dealer_cost": 4238
+        },
+        {
+          "model": "SL25KCV-060",
+          "dealer_cost": 4864
+        }
+      ],
+      "gas_furnace": [
+        {
+          "model": "ML180UH030V36A",
+          "dealer_cost": 611
+        },
+        {
+          "model": "ML180UH045E36A",
+          "dealer_cost": 497
+        },
+        {
+          "model": "ML180UH045E36AK",
+          "dealer_cost": 570
+        },
+        {
+          "model": "ML180UH045V36A",
+          "dealer_cost": 641
+        },
+        {
+          "model": "ML180UH070E36A",
+          "dealer_cost": 520
+        },
+        {
+          "model": "ML180UH070E36AK",
+          "dealer_cost": 593
+        },
+        {
+          "model": "ML180UH070E36B",
+          "dealer_cost": 520
+        },
+        {
+          "model": "ML180UH070E36BK",
+          "dealer_cost": 593
+        },
+        {
+          "model": "ML180UH070V36A",
+          "dealer_cost": 671
+        },
+        {
+          "model": "ML180UH070V36B",
+          "dealer_cost": 671
+        },
+        {
+          "model": "ML180UH070V48B",
+          "dealer_cost": 746
+        },
+        {
+          "model": "ML180UH090E48B",
+          "dealer_cost": 578
+        },
+        {
+          "model": "ML180UH090E48BK",
+          "dealer_cost": 651
+        },
+        {
+          "model": "ML180UH090E60C",
+          "dealer_cost": 607
+        },
+        {
+          "model": "ML180UH090E60CK",
+          "dealer_cost": 680
+        },
+        {
+          "model": "ML180UH090V48B",
+          "dealer_cost": 708
+        },
+        {
+          "model": "ML180UH110E60C",
+          "dealer_cost": 624
+        },
+        {
+          "model": "ML180UH110E60CK",
+          "dealer_cost": 697
+        },
+        {
+          "model": "ML180UH110V60C",
+          "dealer_cost": 804
+        },
+        {
+          "model": "ML196UH030XE36B",
+          "dealer_cost": 942
+        },
+        {
+          "model": "ML196UH070XE48B",
+          "dealer_cost": 1053
+        },
+        {
+          "model": "ML196UH090XE48C",
+          "dealer_cost": 993
+        },
+        {
+          "model": "ML196UH110XE60C",
+          "dealer_cost": 1054
+        },
+        {
+          "model": "ML296UH045XV36B",
+          "dealer_cost": 991
+        },
+        {
+          "model": "ML296UH070XV36B",
+          "dealer_cost": 1047
+        },
+        {
+          "model": "ML296UH090XV48C",
+          "dealer_cost": 1101
+        },
+        {
+          "model": "ML296UH110XV60C",
+          "dealer_cost": 1201
+        },
+        {
+          "model": "SLP99UH070XV36B",
+          "dealer_cost": 1480
+        },
+        {
+          "model": "SLP99UH090XV60C",
+          "dealer_cost": 1705
+        }
+      ]
+    },
+    "TRANE": {
+      "condenser": [
+        {
+          "model": "4TTR4018N1000",
+          "dealer_cost": 1081
+        },
+        {
+          "model": "4TTR4024N1000",
+          "dealer_cost": 1081
+        },
+        {
+          "model": "4TTR4030N1000",
+          "dealer_cost": 1509
+        },
+        {
+          "model": "4TTR4036N1000",
+          "dealer_cost": 1250
+        },
+        {
+          "model": "4TTR4042N1000",
+          "dealer_cost": 1727
+        },
+        {
+          "model": "4TTR4048N1000",
+          "dealer_cost": 1547
+        },
+        {
+          "model": "4TTR4060N1000",
+          "dealer_cost": 1882
+        },
+        {
+          "model": "4TTX6018J1",
+          "dealer_cost": 2190
+        },
+        {
+          "model": "4TTX6024J1",
+          "dealer_cost": 2446
+        },
+        {
+          "model": "4TTX6030J1",
+          "dealer_cost": 2557
+        },
+        {
+          "model": "4TTX6036J1",
+          "dealer_cost": 2704
+        },
+        {
+          "model": "4TTX6042J1",
+          "dealer_cost": 2890
+        },
+        {
+          "model": "4TTX6048J1",
+          "dealer_cost": 3071
+        },
+        {
+          "model": "4TTX6061J1",
+          "dealer_cost": 3759
+        },
+        {
+          "model": "4TTX8024A1",
+          "dealer_cost": 2430
+        },
+        {
+          "model": "4TTX8036A1",
+          "dealer_cost": 2867
+        },
+        {
+          "model": "4TTX8048B1",
+          "dealer_cost": 3495
+        },
+        {
+          "model": "4TTX8060A1",
+          "dealer_cost": 3885
+        },
+        {
+          "model": "4TWR4018G1",
+          "dealer_cost": 1752
+        },
+        {
+          "model": "4TWR4024G1",
+          "dealer_cost": 1878
+        },
+        {
+          "model": "4TWR4030G1",
+          "dealer_cost": 2045
+        },
+        {
+          "model": "4TWR4036G1",
+          "dealer_cost": 2300
+        },
+        {
+          "model": "4TWR4042G1",
+          "dealer_cost": 2322
+        },
+        {
+          "model": "4TWR4048G1",
+          "dealer_cost": 2423
+        },
+        {
+          "model": "4TWR4060G1",
+          "dealer_cost": 2571
+        },
+        {
+          "model": "4TWR5024H1",
+          "dealer_cost": 2170
+        },
+        {
+          "model": "4TWR5030H1",
+          "dealer_cost": 2356
+        },
+        {
+          "model": "4TWR5036H1",
+          "dealer_cost": 2377
+        },
+        {
+          "model": "4TWR5042H1",
+          "dealer_cost": 2430
+        },
+        {
+          "model": "4TWR5048H1",
+          "dealer_cost": 2786
+        },
+        {
+          "model": "4TWR5060H1",
+          "dealer_cost": 2917
+        },
+        {
+          "model": "4TWR6024H1",
+          "dealer_cost": 2733
+        },
+        {
+          "model": "4TWR6030H1",
+          "dealer_cost": 2744
+        },
+        {
+          "model": "4TWR6036H1",
+          "dealer_cost": 2786
+        },
+        {
+          "model": "4TWR6042H1",
+          "dealer_cost": 2950
+        },
+        {
+          "model": "4TWR6048H1",
+          "dealer_cost": 3163
+        },
+        {
+          "model": "4TWR6060H1",
+          "dealer_cost": 3280
+        },
+        {
+          "model": "4TWR7024A1",
+          "dealer_cost": 2890
+        },
+        {
+          "model": "4TWR7036B1",
+          "dealer_cost": 3448
+        },
+        {
+          "model": "4TWR7048A1",
+          "dealer_cost": 3962
+        },
+        {
+          "model": "4TWR7060A1",
+          "dealer_cost": 4405
+        },
+        {
+          "model": "4TWV0024A1",
+          "dealer_cost": 5043
+        },
+        {
+          "model": "4TWV0036A1",
+          "dealer_cost": 5495
+        },
+        {
+          "model": "4TWV0048A1",
+          "dealer_cost": 5832
+        },
+        {
+          "model": "4TWV0060A1",
+          "dealer_cost": 6250
+        },
+        {
+          "model": "4TWV8024A1",
+          "dealer_cost": 4375
+        },
+        {
+          "model": "4TWV8036A1",
+          "dealer_cost": 4946
+        },
+        {
+          "model": "4TWV8048A1",
+          "dealer_cost": 5511
+        },
+        {
+          "model": "4TWV8060A1",
+          "dealer_cost": 5768
+        },
+        {
+          "model": "4TWX8024A1",
+          "dealer_cost": 3164
+        },
+        {
+          "model": "4TWX8036C1",
+          "dealer_cost": 3759
+        },
+        {
+          "model": "4TWX8048A1",
+          "dealer_cost": 4392
+        },
+        {
+          "model": "4TWX8060A1",
+          "dealer_cost": 4826
+        },
+        {
+          "model": "5TTR5018A1000",
+          "dealer_cost": 1844
+        },
+        {
+          "model": "5TTR5024A1000",
+          "dealer_cost": 1364
+        },
+        {
+          "model": "5TTR5030A1000",
+          "dealer_cost": 1465
+        },
+        {
+          "model": "5TTR5036A1000",
+          "dealer_cost": 1570
+        },
+        {
+          "model": "5TTR5042A1000",
+          "dealer_cost": 1674
+        },
+        {
+          "model": "5TTR5048A1000",
+          "dealer_cost": 1830
+        },
+        {
+          "model": "5TTR5060A1000",
+          "dealer_cost": 2279
+        },
+        {
+          "model": "5TTR7024A1000",
+          "dealer_cost": 2116
+        },
+        {
+          "model": "5TTR7036A1000",
+          "dealer_cost": 2193
+        },
+        {
+          "model": "5TTR7048A1000",
+          "dealer_cost": 2718
+        },
+        {
+          "model": "5TTR7060A1000",
+          "dealer_cost": 3082
+        },
+        {
+          "model": "5TTV0X24A1000",
+          "dealer_cost": 4315
+        },
+        {
+          "model": "5TTV0X36A1000",
+          "dealer_cost": 4812
+        },
+        {
+          "model": "5TTV0X48A1000",
+          "dealer_cost": 5310
+        },
+        {
+          "model": "5TTV0X60A1000",
+          "dealer_cost": 5804
+        },
+        {
+          "model": "5TTV8X24A1000",
+          "dealer_cost": 3355
+        },
+        {
+          "model": "5TTV8X36A1000",
+          "dealer_cost": 3836
+        },
+        {
+          "model": "5TTV8X48A1000",
+          "dealer_cost": 4318
+        },
+        {
+          "model": "5TTV8X60A1000",
+          "dealer_cost": 4799
+        }
+      ],
+      "evap_coil": [
+        {
+          "model": "5PXFH005AZ3",
+          "dealer_cost": 761
+        },
+        {
+          "model": "5PXFH009AZ3",
+          "dealer_cost": 903
+        },
+        {
+          "model": "5TXCA002AS3HC",
+          "dealer_cost": 472
+        },
+        {
+          "model": "5TXCB003AS3HC",
+          "dealer_cost": 472
+        },
+        {
+          "model": "5TXCB004AS3HC",
+          "dealer_cost": 524
+        },
+        {
+          "model": "5TXCB006AS3HC",
+          "dealer_cost": 535
+        },
+        {
+          "model": "5TXCC007AS3HC",
+          "dealer_cost": 548
+        },
+        {
+          "model": "5TXCC009AS3HC",
+          "dealer_cost": 620
+        },
+        {
+          "model": "5TXCD010AS3HC",
+          "dealer_cost": 643
+        }
+      ],
+      "heat_strip_txv": [
+        {
+          "model": "81-0695-01",
+          "dealer_cost": 85
+        },
+        {
+          "model": "81-0698-01",
+          "dealer_cost": 108
+        },
+        {
+          "model": "81-0701-01",
+          "dealer_cost": 112
+        },
+        {
+          "model": "81-0703-01",
+          "dealer_cost": 176
+        },
+        {
+          "model": "81-0821-00",
+          "dealer_cost": 155
+        },
+        {
+          "model": "BAYEAAC05BK1BA",
+          "dealer_cost": 126
+        },
+        {
+          "model": "BAYEAAC08BK1BA",
+          "dealer_cost": 153
+        },
+        {
+          "model": "BAYEAAC10BK1BA",
+          "dealer_cost": 160
+        },
+        {
+          "model": "BAYEABC15BK1BA",
+          "dealer_cost": 180
+        },
+        {
+          "model": "BAYEABC20BK1BA",
+          "dealer_cost": 228
+        }
+      ],
+      "gas_furnace": [
+        {
+          "model": "S8B1B040M2PSCA",
+          "dealer_cost": 613
+        },
+        {
+          "model": "S8B1B060M4PSCA",
+          "dealer_cost": 648
+        },
+        {
+          "model": "S8B1B080M4PSCA",
+          "dealer_cost": 696
+        },
+        {
+          "model": "S8B1C100M5PSCA",
+          "dealer_cost": 735
+        },
+        {
+          "model": "S8B1C100M5PSCB",
+          "dealer_cost": 735
+        },
+        {
+          "model": "S8V2A040M3PCB",
+          "dealer_cost": 1256
+        },
+        {
+          "model": "S8V2B060M4PCB",
+          "dealer_cost": 1335
+        },
+        {
+          "model": "S8V2C080M5PCB",
+          "dealer_cost": 1515
+        },
+        {
+          "model": "S8V2C100M5PCB",
+          "dealer_cost": 1530
+        },
+        {
+          "model": "S8X1B040M2PSC",
+          "dealer_cost": 789
+        },
+        {
+          "model": "S8X1B060M4PSC",
+          "dealer_cost": 849
+        },
+        {
+          "model": "S8X1C080M5PSC",
+          "dealer_cost": 890
+        },
+        {
+          "model": "S8X1C100M5PSC",
+          "dealer_cost": 973
+        },
+        {
+          "model": "S9V2B040U3VSB",
+          "dealer_cost": 1782
+        },
+        {
+          "model": "S9V2B060U4VSB",
+          "dealer_cost": 1903
+        },
+        {
+          "model": "S9V2C080U5VSB",
+          "dealer_cost": 1982
+        },
+        {
+          "model": "S9V2C100U5VSB",
+          "dealer_cost": 3965
+        }
+      ],
+      "electric_furnace": [
+        {
+          "model": "TAM9A0A24V21",
+          "dealer_cost": 1791
+        },
+        {
+          "model": "TAM9A0B30V31",
+          "dealer_cost": 1891
+        },
+        {
+          "model": "TAM9A0C36V31D",
+          "dealer_cost": 1415
+        },
+        {
+          "model": "TAM9A0C42V41D",
+          "dealer_cost": 1534
+        },
+        {
+          "model": "TAM9A0C48V41",
+          "dealer_cost": 2330
+        },
+        {
+          "model": "TAM9A0C60V51",
+          "dealer_cost": 2489
+        },
+        {
+          "model": "TAMXB0B30V31D",
+          "dealer_cost": 2346
+        },
+        {
+          "model": "TAMXB0C36V31D",
+          "dealer_cost": 2462
+        },
+        {
+          "model": "TAMXB0C42V41D",
+          "dealer_cost": 2668
+        },
+        {
+          "model": "TAMXB0C48V41D",
+          "dealer_cost": 2726
+        },
+        {
+          "model": "TAMXB0C60V51D",
+          "dealer_cost": 3020
+        },
+        {
+          "model": "TEM4A0B18S21SB",
+          "dealer_cost": 546
+        },
+        {
+          "model": "TEM4A0B24S21SB",
+          "dealer_cost": 547
+        },
+        {
+          "model": "TEM4A0B31M31S",
+          "dealer_cost": 1053
+        },
+        {
+          "model": "TEM4A0B36S31SB",
+          "dealer_cost": 609
+        },
+        {
+          "model": "TEM4A0C43M41S",
+          "dealer_cost": 1291
+        },
+        {
+          "model": "TEM4A0C48S41SB",
+          "dealer_cost": 835
+        },
+        {
+          "model": "TEM4A0C49M41S",
+          "dealer_cost": 1055
+        },
+        {
+          "model": "TEM4A0C60S51SB",
+          "dealer_cost": 954
+        },
+        {
+          "model": "TEM4B0B24M21S",
+          "dealer_cost": 658
+        },
+        {
+          "model": "TEM4B0C37M31S",
+          "dealer_cost": 733
+        },
+        {
+          "model": "TEM4B0C60S51S",
+          "dealer_cost": 1148
+        },
+        {
+          "model": "TEM6A0B24H21S",
+          "dealer_cost": 1118
+        },
+        {
+          "model": "TEM6A0B30H21S",
+          "dealer_cost": 1192
+        },
+        {
+          "model": "TEM6A0C36H31S",
+          "dealer_cost": 1357
+        },
+        {
+          "model": "TEM6A0C42H41S",
+          "dealer_cost": 1510
+        },
+        {
+          "model": "TEM6A0C48H41S",
+          "dealer_cost": 1312
+        },
+        {
+          "model": "TEM6A0D48H41SB",
+          "dealer_cost": 1210
+        },
+        {
+          "model": "TEM6A0D60H51SB",
+          "dealer_cost": 1363
+        },
+        {
+          "model": "TEM6B0C60H51S",
+          "dealer_cost": 1478
+        }
+      ]
+    }
+  },
+  "tier_brands": {
+    "_note": "Maps Good/Better/Best tier names to system packages. Switch TIER_STRATEGY in pricing_engine.py.",
+    "brand": {
+      "good": {
+        "brand_name": "Goodman",
+        "package_key": "goodman_standard",
+        "seer_label": "15 SEER2",
+        "is_placeholder": false
+      },
+      "better": {
+        "brand_name": "Amana",
+        "package_key": "amana_high_eff",
+        "seer_label": "16 SEER2",
+        "is_placeholder": false
+      },
+      "best": {
+        "brand_name": "Trane",
+        "package_key": "trane_premium",
+        "seer_label": "20+ SEER2",
+        "is_placeholder": false
+      }
+    },
+    "efficiency": {
+      "good": {
+        "brand_name": "Amana",
+        "package_key": "amana_standard_eff",
+        "seer_label": "14 SEER2",
+        "is_placeholder": false
+      },
+      "better": {
+        "brand_name": "Amana",
+        "package_key": "amana_high_eff",
+        "seer_label": "16 SEER2",
+        "is_placeholder": false
+      },
+      "best": {
+        "brand_name": "Amana",
+        "package_key": "amana_premium",
+        "seer_label": "20+ SEER2",
+        "is_placeholder": false
+      }
+    }
+  },
+  "system_packages": {
+    "amana_standard_eff": {
+      "_desc": "Amana 80% AFUE single-stage / 14 SEER2 \u2014 base tier",
+      "_seer": "14 SEER2",
+      "_afue": "80% AFUE",
+      "_brand": "Amana",
+      "1.5": {
+        "furnace_model": "ACES800603AN",
+        "furnace_cost": 531.3,
+        "coil_model": "ARUF25B14",
+        "coil_cost": 450.72,
+        "condenser_model": "ASX140181",
+        "condenser_cost": 883.14,
+        "total_dealer_cost": 1865.16,
+        "confirmed": true
+      },
+      "2.0": {
+        "furnace_model": "ACES800603AN",
+        "furnace_cost": 531.3,
+        "coil_model": "ARUF29B14",
+        "coil_cost": 468.72,
+        "condenser_model": "ASX140241",
+        "condenser_cost": 952.02,
+        "total_dealer_cost": 1952.04,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "ACES800804BX",
+        "furnace_cost": 613.2,
+        "coil_model": "ARUF37C14",
+        "coil_cost": 555.84,
+        "condenser_model": "ASX140301",
+        "condenser_cost": 993.02,
+        "total_dealer_cost": 2162.06,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "ACES800804BX",
+        "furnace_cost": 613.2,
+        "coil_model": "ARUF43C14",
+        "coil_cost": 582.48,
+        "condenser_model": "ASX140361",
+        "condenser_cost": 1116.84,
+        "total_dealer_cost": 2312.52,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "ACES801005CX",
+        "furnace_cost": 697.9,
+        "coil_model": "ARUF47D14",
+        "coil_cost": 679.68,
+        "condenser_model": "ASX140421",
+        "condenser_cost": 1262.8,
+        "total_dealer_cost": 2640.38,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "ACES801005CX",
+        "furnace_cost": 697.9,
+        "coil_model": "ARUF49D14",
+        "coil_cost": 740.88,
+        "condenser_model": "ASX140481",
+        "condenser_cost": 1367.76,
+        "total_dealer_cost": 2806.54,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "ACES801005CX",
+        "furnace_cost": 697.9,
+        "coil_model": "ARUF61D14",
+        "coil_cost": 771.12,
+        "condenser_model": "ASX140601",
+        "condenser_cost": 1562.1,
+        "total_dealer_cost": 3031.12,
+        "confirmed": true
+      }
+    },
+    "amana_high_eff": {
+      "_desc": "Amana 96% AFUE single-stage / 16 SEER2 \u2014 mid tier",
+      "_seer": "16 SEER2",
+      "_afue": "96% AFUE",
+      "_brand": "Amana",
+      "1.5": {
+        "furnace_model": "ACES960403BN",
+        "furnace_cost": 1121.4,
+        "coil_model": "ARUF25B14",
+        "coil_cost": 450.72,
+        "condenser_model": "ASX160181",
+        "condenser_cost": 979.44,
+        "total_dealer_cost": 2551.56,
+        "confirmed": true
+      },
+      "2.0": {
+        "furnace_model": "ACES960603BN",
+        "furnace_cost": 1160.1,
+        "coil_model": "ARUF29B14",
+        "coil_cost": 468.72,
+        "condenser_model": "ASX160241",
+        "condenser_cost": 1021.02,
+        "total_dealer_cost": 2649.84,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "ACES960804CN",
+        "furnace_cost": 1303.2,
+        "coil_model": "ARUF37C14",
+        "coil_cost": 555.84,
+        "condenser_model": "ASX160311",
+        "condenser_cost": 1102.64,
+        "total_dealer_cost": 2961.68,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "ACES960804CN",
+        "furnace_cost": 1303.2,
+        "coil_model": "ARUF43C14",
+        "coil_cost": 582.48,
+        "condenser_model": "ASX160361",
+        "condenser_cost": 1083.39,
+        "total_dealer_cost": 2969.07,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "ACES961005CN",
+        "furnace_cost": 1515.6,
+        "coil_model": "ARUF47D14",
+        "coil_cost": 679.68,
+        "condenser_model": "ASX160421",
+        "condenser_cost": 1272.81,
+        "total_dealer_cost": 3468.09,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "ACES961005CN",
+        "furnace_cost": 1515.6,
+        "coil_model": "ARUF49D14",
+        "coil_cost": 740.88,
+        "condenser_model": "ASX160481",
+        "condenser_cost": 1379.07,
+        "total_dealer_cost": 3635.55,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "ACES961205DN",
+        "furnace_cost": 1628.1,
+        "coil_model": "ARUF61D14",
+        "coil_cost": 771.12,
+        "condenser_model": "ASX160601",
+        "condenser_cost": 1700.93,
+        "total_dealer_cost": 4100.15,
+        "confirmed": true
+      }
+    },
+    "amana_premium": {
+      "_desc": "Amana 97% AFUE variable / 20+ SEER2 variable \u2014 premium tier",
+      "_seer": "20+ SEER2",
+      "_afue": "97% AFUE",
+      "_brand": "Amana",
+      "_note": "Only tonnages where all models exist in Excel. 1.5T/2.5T/3.5T condensers not available.",
+      "2.0": {
+        "furnace_model": "AMVM970603BN",
+        "furnace_cost": 1468.74,
+        "coil_model": "ASPT29B14",
+        "coil_cost": 713.52,
+        "condenser_model": "AVXC200241",
+        "condenser_cost": 3708,
+        "total_dealer_cost": 5890.26,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "AMVM970804CN",
+        "furnace_cost": 1709.76,
+        "coil_model": "ASPT37C14",
+        "coil_cost": 745.2,
+        "condenser_model": "AVXC200361",
+        "condenser_cost": 3947.4,
+        "total_dealer_cost": 6402.36,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "AMVM971005CN",
+        "furnace_cost": 1847.82,
+        "coil_model": "ARUF49D14",
+        "coil_cost": 740.88,
+        "condenser_model": "AVXC200481",
+        "condenser_cost": 4343.4,
+        "total_dealer_cost": 6932.1,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "AMVM971205DN",
+        "furnace_cost": 1978.08,
+        "coil_model": "ARUF61D14",
+        "coil_cost": 771.12,
+        "condenser_model": "AVXC200601",
+        "condenser_cost": 4787.1,
+        "total_dealer_cost": 7536.3,
+        "confirmed": true
+      }
+    },
+    "goodman_standard": {
+      "_desc": "Goodman 80% AFUE multi-speed ECM / ~15 SEER \u2014 budget tier",
+      "_seer": "15 SEER2",
+      "_afue": "80% AFUE",
+      "_brand": "Goodman",
+      "1.5": {
+        "furnace_model": "GMEC800403AN",
+        "furnace_cost": 452,
+        "coil_model": "ARUF25B14",
+        "coil_cost": 347,
+        "condenser_model": "GLXS5BA1810A",
+        "condenser_cost": 817,
+        "total_dealer_cost": 1616,
+        "confirmed": true
+      },
+      "2.0": {
+        "furnace_model": "GMEC800603BN",
+        "furnace_cost": 486,
+        "coil_model": "ARUF29B14",
+        "coil_cost": 360,
+        "condenser_model": "GLXS5BA2410A",
+        "condenser_cost": 848,
+        "total_dealer_cost": 1694,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "GMEC800804BN",
+        "furnace_cost": 530,
+        "coil_model": "ARUF37C14",
+        "coil_cost": 444,
+        "condenser_model": "GLXS5BA3010A",
+        "condenser_cost": 891,
+        "total_dealer_cost": 1865,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "GMEC800804CN",
+        "furnace_cost": 537,
+        "coil_model": "ARUF43C14",
+        "coil_cost": 717,
+        "condenser_model": "GLXS5BA3610A",
+        "condenser_cost": 1041,
+        "total_dealer_cost": 2295,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "GMEC801005CN",
+        "furnace_cost": 578,
+        "coil_model": "ARUF47D14",
+        "coil_cost": 564,
+        "condenser_model": "GLXS5BA4210A",
+        "condenser_cost": 1196,
+        "total_dealer_cost": 2338,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "GMEC801005CN",
+        "furnace_cost": 578,
+        "coil_model": "ARUF49D14",
+        "coil_cost": 593,
+        "condenser_model": "GLXS5BA4810A",
+        "condenser_cost": 1304,
+        "total_dealer_cost": 2475,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "GMEC801205DN",
+        "furnace_cost": 656,
+        "coil_model": "ARUF61D14",
+        "coil_cost": 623,
+        "condenser_model": "GLXS5BA6010A",
+        "condenser_cost": 1460,
+        "total_dealer_cost": 2739,
+        "confirmed": true
+      }
+    },
+    "goodman_high": {
+      "_desc": "Goodman 96% AFUE multi-speed ECM / ~15 SEER \u2014 mid Goodman tier",
+      "_seer": "15 SEER2",
+      "_afue": "96% AFUE",
+      "_brand": "Goodman",
+      "1.5": {
+        "furnace_model": "GMES960403AN",
+        "furnace_cost": 889,
+        "coil_model": "ARUF25B14",
+        "coil_cost": 347,
+        "condenser_model": "GLXS5BA1810A",
+        "condenser_cost": 817,
+        "total_dealer_cost": 2053,
+        "confirmed": true
+      },
+      "2.0": {
+        "furnace_model": "GMES960603BN",
+        "furnace_cost": 933,
+        "coil_model": "ARUF29B14",
+        "coil_cost": 360,
+        "condenser_model": "GLXS5BA2410A",
+        "condenser_cost": 848,
+        "total_dealer_cost": 2141,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "GMES960803BN",
+        "furnace_cost": 1058,
+        "coil_model": "ARUF37C14",
+        "coil_cost": 444,
+        "condenser_model": "GLXS5BA3010A",
+        "condenser_cost": 891,
+        "total_dealer_cost": 2393,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "GMES960804CN",
+        "furnace_cost": 1126,
+        "coil_model": "ARUF43C14",
+        "coil_cost": 717,
+        "condenser_model": "GLXS5BA3610A",
+        "condenser_cost": 1041,
+        "total_dealer_cost": 2884,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "GMES960805CN",
+        "furnace_cost": 1178,
+        "coil_model": "ARUF47D14",
+        "coil_cost": 564,
+        "condenser_model": "GLXS5BA4210A",
+        "condenser_cost": 1196,
+        "total_dealer_cost": 2938,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "GMES961005CN",
+        "furnace_cost": 1241,
+        "coil_model": "ARUF49D14",
+        "coil_cost": 593,
+        "condenser_model": "GLXS5BA4810A",
+        "condenser_cost": 1304,
+        "total_dealer_cost": 3138,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "GMES961205DN",
+        "furnace_cost": 1317,
+        "coil_model": "ARUF61D14",
+        "coil_cost": 623,
+        "condenser_model": "GLXS5BA6010A",
+        "condenser_cost": 1460,
+        "total_dealer_cost": 3400,
+        "confirmed": true
+      }
+    },
+    "goodman_premium": {
+      "_desc": "Goodman 97% AFUE modulating variable / ~15 SEER \u2014 top Goodman tier",
+      "_seer": "15 SEER2",
+      "_afue": "97% AFUE",
+      "_brand": "Goodman",
+      "_note": "No 1.5T variable furnace available for Goodman.",
+      "2.0": {
+        "furnace_model": "GMVM970603BN",
+        "furnace_cost": 1433,
+        "coil_model": "ASPT29B14",
+        "coil_cost": 752,
+        "condenser_model": "GLXS5BA2410A",
+        "condenser_cost": 848,
+        "total_dealer_cost": 3033,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "GMVM970803BN",
+        "furnace_cost": 1650,
+        "coil_model": "ASPT37C14",
+        "coil_cost": 781,
+        "condenser_model": "GLXS5BA3010A",
+        "condenser_cost": 891,
+        "total_dealer_cost": 3322,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "GMVM970804CN",
+        "furnace_cost": 1673,
+        "coil_model": "ASPT37C14",
+        "coil_cost": 781,
+        "condenser_model": "GLXS5BA3610A",
+        "condenser_cost": 1041,
+        "total_dealer_cost": 3495,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "GMVM970804CN",
+        "furnace_cost": 1673,
+        "coil_model": "ASPT47C14",
+        "coil_cost": 814,
+        "condenser_model": "GLXS5BA4210A",
+        "condenser_cost": 1196,
+        "total_dealer_cost": 3683,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "GMVM971005CN",
+        "furnace_cost": 1807,
+        "coil_model": "ASPT49D14",
+        "coil_cost": 905,
+        "condenser_model": "GLXS5BA4810A",
+        "condenser_cost": 1304,
+        "total_dealer_cost": 4016,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "GMVM971205DN",
+        "furnace_cost": 1948,
+        "coil_model": "ASPT61D14",
+        "coil_cost": 911,
+        "condenser_model": "GLXS5BA6010A",
+        "condenser_cost": 1460,
+        "total_dealer_cost": 4319,
+        "confirmed": true
+      }
+    },
+    "lennox_standard": {
+      "_desc": "Lennox 80% AFUE ECM single-stage / 14 SEER \u2014 standard Lennox tier",
+      "_seer": "14 SEER",
+      "_afue": "80% AFUE",
+      "_brand": "Lennox",
+      "1.5": {
+        "furnace_model": "ML180UH045E36A",
+        "furnace_cost": 497,
+        "coil_model": "CK40HT-18A",
+        "coil_cost": 351,
+        "condenser_model": "ML14KC1-018",
+        "condenser_cost": 920,
+        "total_dealer_cost": 1768,
+        "confirmed": true
+      },
+      "2.0": {
+        "furnace_model": "ML180UH070E36A",
+        "furnace_cost": 520,
+        "coil_model": "CK40HT-24A",
+        "coil_cost": 375,
+        "condenser_model": "ML14KC1-024",
+        "condenser_cost": 950,
+        "total_dealer_cost": 1845,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "ML180UH070E36B",
+        "furnace_cost": 520,
+        "coil_model": "CK40HT-30A",
+        "coil_cost": 419,
+        "condenser_model": "ML14KC1-030",
+        "condenser_cost": 991,
+        "total_dealer_cost": 1930,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "ML180UH090E48B",
+        "furnace_cost": 578,
+        "coil_model": "CK40HT-36A",
+        "coil_cost": 392,
+        "condenser_model": "ML14KC1-036",
+        "condenser_cost": 1022,
+        "total_dealer_cost": 1992,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "ML180UH090E60C",
+        "furnace_cost": 607,
+        "coil_model": "CK40HT-42B",
+        "coil_cost": 505,
+        "condenser_model": "ML14KC1-042",
+        "condenser_cost": 1125,
+        "total_dealer_cost": 2237,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "ML180UH110E60C",
+        "furnace_cost": 624,
+        "coil_model": "CK40HT-48B",
+        "coil_cost": 468,
+        "condenser_model": "ML14KC1-048",
+        "condenser_cost": 1278,
+        "total_dealer_cost": 2370,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "ML180UH110E60C",
+        "furnace_cost": 624,
+        "coil_model": "CK40HT-60D",
+        "coil_cost": 535,
+        "condenser_model": "ML14KC1-060",
+        "condenser_cost": 1482,
+        "total_dealer_cost": 2641,
+        "confirmed": true
+      }
+    },
+    "lennox_high": {
+      "_desc": "Lennox 96% AFUE variable / 17 SEER \u2014 high-eff Lennox tier",
+      "_seer": "17 SEER",
+      "_afue": "96% AFUE",
+      "_brand": "Lennox",
+      "1.5": {
+        "furnace_model": "ML296UH045XV36B",
+        "furnace_cost": 991,
+        "coil_model": "CK40HT-18A",
+        "coil_cost": 351,
+        "condenser_model": "ML17XP1-018",
+        "condenser_cost": 952,
+        "total_dealer_cost": 2294,
+        "confirmed": true
+      },
+      "2.0": {
+        "furnace_model": "ML296UH070XV36B",
+        "furnace_cost": 1047,
+        "coil_model": "CK40HT-24A",
+        "coil_cost": 375,
+        "condenser_model": "ML17XP1-024",
+        "condenser_cost": 1088,
+        "total_dealer_cost": 2510,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "ML296UH070XV36B",
+        "furnace_cost": 1047,
+        "coil_model": "CK40HT-30A",
+        "coil_cost": 419,
+        "condenser_model": "ML17XP1-030",
+        "condenser_cost": 1103,
+        "total_dealer_cost": 2569,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "ML296UH090XV48C",
+        "furnace_cost": 1101,
+        "coil_model": "CK40HT-36A",
+        "coil_cost": 392,
+        "condenser_model": "ML17XP1-036",
+        "condenser_cost": 1171,
+        "total_dealer_cost": 2664,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "ML296UH090XV48C",
+        "furnace_cost": 1101,
+        "coil_model": "CK40HT-42B",
+        "coil_cost": 505,
+        "condenser_model": "ML17XP1-042",
+        "condenser_cost": 1248,
+        "total_dealer_cost": 2854,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "ML296UH110XV60C",
+        "furnace_cost": 1201,
+        "coil_model": "CK40HT-48B",
+        "coil_cost": 468,
+        "condenser_model": "ML17XP1-048",
+        "condenser_cost": 1315,
+        "total_dealer_cost": 2984,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "ML296UH110XV60C",
+        "furnace_cost": 1201,
+        "coil_model": "CK40HT-60D",
+        "coil_cost": 535,
+        "condenser_model": "ML17XP1-060",
+        "condenser_cost": 1616,
+        "total_dealer_cost": 3352,
+        "confirmed": true
+      }
+    },
+    "lennox_premium": {
+      "_desc": "Lennox 99% AFUE variable / 25 SEER \u2014 premium Lennox tier",
+      "_seer": "25 SEER",
+      "_afue": "99% AFUE",
+      "_brand": "Lennox",
+      "_note": "SL25KCV condensers only available in 024/036/048/060 (2.0/3.0/4.0/5.0 ton).",
+      "2.0": {
+        "furnace_model": "SLP99UH070XV36B",
+        "furnace_cost": 1480,
+        "coil_model": "CBK45UHVT-024",
+        "coil_cost": 894,
+        "condenser_model": "SL25KCV-024",
+        "condenser_cost": 3554,
+        "total_dealer_cost": 5928,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "SLP99UH070XV36B",
+        "furnace_cost": 1480,
+        "coil_model": "CBK45UHVT-036",
+        "coil_cost": 991,
+        "condenser_model": "SL25KCV-036",
+        "condenser_cost": 3596,
+        "total_dealer_cost": 6067,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "SLP99UH090XV60C",
+        "furnace_cost": 1705,
+        "coil_model": "CBK45UHVT-048",
+        "coil_cost": 1179,
+        "condenser_model": "SL25KCV-048",
+        "condenser_cost": 4238,
+        "total_dealer_cost": 7122,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "SLP99UH090XV60C",
+        "furnace_cost": 1705,
+        "coil_model": "CBK45UHVT-060",
+        "coil_cost": 1329,
+        "condenser_model": "SL25KCV-060",
+        "condenser_cost": 4864,
+        "total_dealer_cost": 7898,
+        "confirmed": true
+      }
+    },
+    "trane_standard": {
+      "_desc": "Trane 80% AFUE single-stage / 14 SEER \u2014 standard Trane tier",
+      "_seer": "14 SEER",
+      "_afue": "80% AFUE",
+      "_brand": "Trane",
+      "1.5": {
+        "furnace_model": "S8B1B040M2PSCA",
+        "furnace_cost": 613,
+        "coil_model": "5TXCA002AS3HC",
+        "coil_cost": 472,
+        "condenser_model": "4TTR4018N1000",
+        "condenser_cost": 1081,
+        "total_dealer_cost": 2166,
+        "confirmed": true
+      },
+      "2.0": {
+        "furnace_model": "S8B1B060M4PSCA",
+        "furnace_cost": 648,
+        "coil_model": "5TXCB003AS3HC",
+        "coil_cost": 472,
+        "condenser_model": "4TTR4024N1000",
+        "condenser_cost": 1081,
+        "total_dealer_cost": 2201,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "S8B1B060M4PSCA",
+        "furnace_cost": 648,
+        "coil_model": "5TXCB004AS3HC",
+        "coil_cost": 524,
+        "condenser_model": "4TTR4030N1000",
+        "condenser_cost": 1509,
+        "total_dealer_cost": 2681,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "S8B1B080M4PSCA",
+        "furnace_cost": 696,
+        "coil_model": "5TXCB006AS3HC",
+        "coil_cost": 535,
+        "condenser_model": "4TTR4036N1000",
+        "condenser_cost": 1250,
+        "total_dealer_cost": 2481,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "S8B1B080M4PSCA",
+        "furnace_cost": 696,
+        "coil_model": "5TXCC007AS3HC",
+        "coil_cost": 548,
+        "condenser_model": "4TTR4042N1000",
+        "condenser_cost": 1727,
+        "total_dealer_cost": 2971,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "S8B1C100M5PSCA",
+        "furnace_cost": 735,
+        "coil_model": "5TXCC009AS3HC",
+        "coil_cost": 620,
+        "condenser_model": "4TTR4048N1000",
+        "condenser_cost": 1547,
+        "total_dealer_cost": 2902,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "S8B1C100M5PSCA",
+        "furnace_cost": 735,
+        "coil_model": "5TXCD010AS3HC",
+        "coil_cost": 643,
+        "condenser_model": "4TTR4060N1000",
+        "condenser_cost": 1882,
+        "total_dealer_cost": 3260,
+        "confirmed": true
+      }
+    },
+    "trane_mid": {
+      "_desc": "Trane 80% AFUE enhanced single-stage / 15 SEER \u2014 mid Trane tier",
+      "_seer": "15 SEER",
+      "_afue": "80% AFUE",
+      "_brand": "Trane",
+      "1.5": {
+        "furnace_model": "S8X1B040M2PSC",
+        "furnace_cost": 789,
+        "coil_model": "5TXCA002AS3HC",
+        "coil_cost": 472,
+        "condenser_model": "5TTR5018A1000",
+        "condenser_cost": 1844,
+        "total_dealer_cost": 3105,
+        "confirmed": true
+      },
+      "2.0": {
+        "furnace_model": "S8X1B060M4PSC",
+        "furnace_cost": 849,
+        "coil_model": "5TXCB003AS3HC",
+        "coil_cost": 472,
+        "condenser_model": "5TTR5024A1000",
+        "condenser_cost": 1364,
+        "total_dealer_cost": 2685,
+        "confirmed": true
+      },
+      "2.5": {
+        "furnace_model": "S8X1B060M4PSC",
+        "furnace_cost": 849,
+        "coil_model": "5TXCB004AS3HC",
+        "coil_cost": 524,
+        "condenser_model": "5TTR5030A1000",
+        "condenser_cost": 1465,
+        "total_dealer_cost": 2838,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "S8X1C080M5PSC",
+        "furnace_cost": 890,
+        "coil_model": "5TXCB006AS3HC",
+        "coil_cost": 535,
+        "condenser_model": "5TTR5036A1000",
+        "condenser_cost": 1570,
+        "total_dealer_cost": 2995,
+        "confirmed": true
+      },
+      "3.5": {
+        "furnace_model": "S8X1C080M5PSC",
+        "furnace_cost": 890,
+        "coil_model": "5TXCC007AS3HC",
+        "coil_cost": 548,
+        "condenser_model": "5TTR5042A1000",
+        "condenser_cost": 1674,
+        "total_dealer_cost": 3112,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "S8X1C100M5PSC",
+        "furnace_cost": 973,
+        "coil_model": "5TXCC009AS3HC",
+        "coil_cost": 620,
+        "condenser_model": "5TTR5048A1000",
+        "condenser_cost": 1830,
+        "total_dealer_cost": 3423,
+        "confirmed": true
+      },
+      "5.0": {
+        "furnace_model": "S8X1C100M5PSC",
+        "furnace_cost": 973,
+        "coil_model": "5TXCD010AS3HC",
+        "coil_cost": 643,
+        "condenser_model": "5TTR5060A1000",
+        "condenser_cost": 2279,
+        "total_dealer_cost": 3895,
+        "confirmed": true
+      }
+    },
+    "trane_premium": {
+      "_desc": "Trane 96% AFUE variable / 20+ SEER variable \u2014 premium Trane tier",
+      "_seer": "20+ SEER",
+      "_afue": "96% AFUE",
+      "_brand": "Trane",
+      "_note": "5TTV0 condensers only in 024/036/048/060. S9V2C100U5VSB at $3,965 per Excel (verify with distributor).",
+      "2.0": {
+        "furnace_model": "S9V2B060U4VSB",
+        "furnace_cost": 1903,
+        "coil_model": "TAM9A0A24V21",
+        "coil_cost": 1791,
+        "condenser_model": "5TTV0X24A1000",
+        "condenser_cost": 4315,
+        "total_dealer_cost": 8009,
+        "confirmed": true
+      },
+      "3.0": {
+        "furnace_model": "S9V2C080U5VSB",
+        "furnace_cost": 1982,
+        "coil_model": "TAM9A0C36V31D",
+        "coil_cost": 1415,
+        "condenser_model": "5TTV0X36A1000",
+        "condenser_cost": 4812,
+        "total_dealer_cost": 8209,
+        "confirmed": true
+      },
+      "4.0": {
+        "furnace_model": "S9V2C100U5VSB",
+        "furnace_cost": 3965,
+        "coil_model": "TAM9A0C48V41",
+        "coil_cost": 2330,
+        "condenser_model": "5TTV0X48A1000",
+        "condenser_cost": 5310,
+        "total_dealer_cost": 11605,
+        "confirmed": true,
+        "_note": "S9V2C100U5VSB cost $3,965 in Excel \u2014 unusually high vs 80k BTU at $1,982. Verify."
+      },
+      "5.0": {
+        "furnace_model": "S9V2C100U5VSB",
+        "furnace_cost": 3965,
+        "coil_model": "TAM9A0C60V51",
+        "coil_cost": 2489,
+        "condenser_model": "5TTV0X60A1000",
+        "condenser_cost": 5804,
+        "total_dealer_cost": 12258,
+        "confirmed": true,
+        "_note": "S9V2C100U5VSB cost $3,965 in Excel \u2014 unusually high vs 80k BTU at $1,982. Verify."
+      }
+    }
+  }
 }

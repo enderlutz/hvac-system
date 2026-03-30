@@ -61,7 +61,9 @@ class JobInput(BaseModel):
     ductwork_needed: bool = False
     ductwork_notes: Optional[str] = None
     access_difficulty: AccessDifficulty = AccessDifficulty.standard
+    orientation: Optional[str] = None    # "horizontal", "upflow", "downflow"
     urgency: Urgency = Urgency.routine
+    permit_cost_override: Optional[float] = None  # admin can set exact permit cost
     additional_notes: Optional[str] = None
 
 

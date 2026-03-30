@@ -1,10 +1,16 @@
 # HVAC Proposal Automation — Claude Code Project Guide
 
+**Client:** Lucks Air & Heat, LLC — Cypress, TX
+**Contact:** Crickett Teelucksingh (office) | Clint Teelucksingh (authorized agent)
+**License:** TACLA29424E | Service area: Houston metro
+
+---
+
 ## What This Project Is
 
-A full-stack web application that automates the HVAC proposal process for a Houston-area HVAC company (primary dealer: Trane). Technicians or office staff enter job details via a structured form — or paste raw technician notes as a fallback — and the app outputs a styled, customer-ready three-tier proposal (Good / Better / Best).
+A full-stack web application that completely replaces the client's Excel-based estimating and proposal process. The goal is: technician visits job site → enters job details into a form → system generates a three-tier proposal (Good / Better / Best) → admin reviews and edits → proposal sent to customer as PDF.
 
-**No AI or LLM is used at runtime.** All pricing and parsing logic is deterministic Python code.
+**No AI or LLM is used at runtime.** All pricing and parsing logic is deterministic Python.
 
 ---
 
@@ -14,9 +20,9 @@ A full-stack web application that automates the HVAC proposal process for a Hous
 |---|---|
 | Backend | Python 3.10 + FastAPI + Pydantic v2 |
 | Frontend | Vanilla HTML / CSS / JS (no build step) |
-| PDF Export | fpdf2 |
-| Database | None yet — pricing loaded from JSON / Excel |
-| Service area | Houston metro — Texas SEER2 standards apply |
+| PDF Export | fpdf2 (pure Python, no system deps) |
+| Pricing data | `backend/data/pricebook.json` |
+| Service area | Houston metro — Texas 15 SEER2 minimum, 8.25% sales tax |
 
 ---
 
@@ -32,7 +38,7 @@ uvicorn main:app --reload --port 8000
 open frontend/index.html
 ```
 
-API docs available at: `http://localhost:8000/docs`
+API docs: `http://localhost:8000/docs`
 
 ---
 
@@ -47,25 +53,28 @@ HVAC-System/
 │   │   ├── proposals.py               # POST /proposals, /parse-notes, /export-pdf
 │   │   └── pricebook.py               # GET /pricebook/equipment
 │   ├── services/
-│   │   ├── pricing_engine.py          # Tier pricing logic (placeholders until Phase 2)
-│   │   ├── notes_parser.py            # Raw notes -> structured fields (Phase 3 done)
+│   │   ├── pricing_engine.py          # THE CORE — Excel formula chain in Python
+│   │   ├── notes_parser.py            # Raw notes -> structured fields (Phase 3, COMPLETE)
 │   │   ├── proposal_builder.py        # Assembles ProposalResponse from job + pricing
-│   │   └── pdf_builder.py             # Generates branded PDF via fpdf2 (Phase 4 done)
+│   │   └── pdf_builder.py             # Generates branded PDF via fpdf2 (Phase 4, COMPLETE)
 │   ├── models/
-│   │   ├── job_input.py               # Pydantic model for all 20 form fields
+│   │   ├── job_input.py               # Pydantic model for all job fields
 │   │   └── proposal.py                # ProposalResponse, TierOption, ParsedNotesResponse
 │   ├── data/
-│   │   └── pricebook.json             # Equipment/pricing data (placeholder — Phase 2)
+│   │   └── pricebook.json             # Equipment catalog + materials BOM defaults
 │   └── tests/
-│       ├── test_pricing.py            # 5 tests — pricing engine placeholder behavior
+│       ├── test_pricing.py            # Pricing engine tests
 │       └── test_notes_parser.py       # 41 tests — full parser coverage
 ├── frontend/
-│   ├── index.html                     # Job intake form (all fields + raw notes toggle)
-│   ├── proposal.html                  # Three-tier proposal output + edit mode + PDF export
-│   ├── style.css                      # Full responsive stylesheet
-│   └── app.js                         # Form logic, API calls, proposal rendering, PDF download
+│   ├── index.html                     # Job intake form
+│   ├── proposal.html                  # Three-tier proposal output + edit + PDF export
+│   ├── style.css
+│   └── app.js
+├── docs/
+│   ├── excel-process-summary.md      # Full analysis of the client's Excel workbook
+│   └── confused.md                   # Open questions to ask the client
 └── excel/
-    └── [client dashboard].xlsx        # DROP CLIENT FILE HERE for Phase 2
+    └── 1 - RETRO ESTIMATING SHEET.xlsx   # Client's source-of-truth workbook
 ```
 
 ---
@@ -76,115 +85,188 @@ HVAC-System/
 |---|---|---|---|
 | POST | `/proposals` | Done | Accepts job input, returns full three-tier proposal |
 | POST | `/proposals/parse-notes` | Done | Parses raw technician notes into structured fields |
-| POST | `/proposals/export-pdf` | Done | Returns branded PDF file download |
-| GET | `/pricebook/equipment` | Done (placeholder) | Returns equipment options by system type |
+| POST | `/proposals/export-pdf` | Done | Returns branded PDF download |
+| GET | `/pricebook/equipment` | Placeholder | Returns equipment options by system type |
 
 ---
 
 ## Phase Status
 
 ### Phase 1 — Scaffold + Form UI — COMPLETE
-- FastAPI project structure with all routers, services, and models
-- Job intake form with all 20 fields from the brief
-- Raw notes fallback toggle
-- Placeholder pricing engine returning `[PRICE TBD]`
-- Three-tier proposal output page (Good / Better / Best)
-- Houston smart defaults: permit auto-checked on replacement, R-22 warning banner, SEER2 note
+Full end-to-end flow with placeholder pricing. Job form, proposal output, PDF export all working.
 
-### Phase 2 — Excel Integration — BLOCKED (waiting on client)
-See full instructions below.
+### Phase 2 — Real Pricing Engine — IN PROGRESS (equipment complete, materials estimated)
+All 5 brands (Amana, Goodman, Lennox, Trane, Carrier) now have real dealer costs in pricebook.json.
+12 system packages built (3 tiers × 4 brands), 685 equipment items, 262 material items cataloged.
+See full details in the section below.
 
 ### Phase 3 — Notes Parser — COMPLETE
-Parser extracts 14 fields from free-form technician notes using pattern matching (no AI):
-
-| Field | Example patterns handled |
-|---|---|
-| Tonnage | `3.5 ton`, `3.5t`, `4T`, `3 1/2 ton` — snaps to valid values |
-| System type | mini-split, heat pump, package unit, split, commercial |
-| Service type | full replacement / swap out / repair / new install |
-| Refrigerant | R-22/freon, R-410A/puron, R-32 |
-| Access | attic, rooftop, crawl space / tight |
-| Urgency | urgent (asap/no cooling/emergency), soon, routine |
-| Equipment make | 22 known brands + `"existing: Carrier"` prefix detection |
-| Equipment age | `"15 years old"`, `"installed 2010"` (auto-converts year to age) |
-| Customer name | `"Customer: John Smith"` label detection |
-| Tech name | `"Tech: Mike Rodriguez"` label detection |
-| Permit | `"permit needed"` / `"no permit"` + auto-true on replacement |
-| Lineset | `"new lineset needed"` / `"lineset replacement"` |
-| Electrical | `"new disconnect"` / `"electrical work needed"` |
-| Ductwork | `"leaky ducts"` / `"ductwork replacement"` |
-
-Confidence flags (`high` / `medium` / `low`) are returned for each field. Low-confidence fields are highlighted yellow in the form for staff to verify before submitting.
-
-**41 tests passing** — `backend/tests/test_notes_parser.py`
+41 tests passing. Extracts 14 fields from free-form technician notes.
 
 ### Phase 4 — PDF Export — COMPLETE
-- `POST /proposals/export-pdf` returns a landscape A4 PDF
-- Branded header with logo placeholder
-- Proposal metadata block (customer, address, system, tech, date)
-- R-22 / SEER2 / permit banners shown as applicable
-- Three-column Good / Better / Best layout with color-coded headers, benefits, warranty, install time, pricing breakdown, and total
-- "Pricing pending Excel integration" note on placeholder tiers
-- Export button in `proposal.html` calls the API and triggers browser download
+Branded landscape A4 PDF with three-column Good/Better/Best layout.
 
 ### Phase 5 — Polish + Deploy — NOT STARTED
-- Mobile/tablet responsiveness audit and fixes
-- Final styling pass
-- Deployment (hosting TBD with client)
 
 ---
 
-## Phase 2 Instructions — Excel Integration
+## Phase 2: Pricing Engine Implementation
 
-**Trigger:** Client provides their Excel pricing dashboard. Drop the file in `excel/`.
+This is the core of Phase 2. The goal is to implement the exact formula chain from the client's Excel workbook so the software produces prices that match what the client would have calculated manually.
 
-### What to do when the Excel file arrives:
+### The Excel formula chain (source of truth)
 
-1. **Read every sheet** — map all tabs, identify input variables vs. calculated cells
-2. **Extract pricing components:**
-   - Equipment cost by brand, model, tonnage, and SEER rating
-   - Labor cost by job type, system type, and access difficulty
-   - Dealer margin / markup formula
-   - Adder costs: lineset replacement, electrical, ductwork, permit fees
-   - Final customer price per tier
-3. **Replicate each formula as a Python function** in `backend/services/pricing_engine.py`
-   - Replace all `[PRICE TBD]` placeholders with real calculations
-   - Remove the `is_placeholder = True` flag on `TierOption` objects when real pricing is wired in
-4. **Populate `backend/data/pricebook.json`** with equipment catalog data (brands, models, tonnage options, base costs)
-5. **Update `backend/routers/pricebook.py`** to load from `pricebook.json` instead of the hardcoded placeholder dict
-6. **Write test cases** in `backend/tests/test_pricing.py` validating that Python output matches Excel output for a set of known inputs — do not remove the placeholder tests, just add real ones alongside them
+This is the exact logic from the client's ESTIMATE SHEET, translated to plain English:
 
-### Key config in `pricing_engine.py`:
+```
+1. EQUIPMENT COST  = dealer_cost × 1.10
+                     (dealer price from EQUIPMENT PRICING sheet, +10% markup)
 
-```python
-TIER_STRATEGY = "brand"  # Switch to "efficiency" once client confirms
+2. MATERIALS       = sum of all line-item materials for the job
+                     (fittings, flex duct, copper, drain pan, etc.)
+                     In the software: use default BOM by tonnage + system type
+                     (see pricebook.json: "default_bom" section)
+
+3. LABOR           = $900 flat for a complete system retrofit
+                     (from RETRO PRICE SHEET — this is the subcontractor rate)
+
+4. PERMITS         = looked up from PERMIT LOG (varies $111–$250+)
+                     In the software: use $200 default until client clarifies formula
+
+5. WARRANTY        = $150 (hardcoded in Excel)
+
+6. TAXABLE AMOUNT  = materials × 1.05
+                     (the 1.05 factor is a waste/handling buffer — need to confirm with client)
+
+7. SUB TOTAL       = (equipment_cost) + (labor + permits + warranty + taxable_amount)
+
+8. RETAIL PRICE    = sub_total / 0.55
+                     (dividing by 0.55 achieves a 45% gross margin target)
+
+9. TAX             = (taxable_materials + equipment_cost) × 0.0825
+                     (Texas 8.25% sales tax on equipment + taxable materials)
+
+10. FINAL PRICE    = retail_price + tax
 ```
 
-- `"brand"` — Good = budget brand, Better = mid-tier, Best = Trane
-- `"efficiency"` — All Trane, tiered by SEER2: Good = 15, Better = 17, Best = 20+
+### Tier strategy config
 
-**Client must confirm which strategy before Phase 2 can be finalized.**
+```python
+TIER_STRATEGY = "brand"  # Options: "brand" | "efficiency"
+```
+
+- **`"brand"`** — Good = Goodman, Better = Carrier/Amana, Best = Trane/Lennox
+- **`"efficiency"`** — All same brand, tiered by SEER2: Good = 15, Better = 17, Best = 20+
+
+**Client has not yet confirmed which strategy.** Default to `"brand"` until confirmed.
+
+### Equipment selection per tier
+
+When `TIER_STRATEGY = "brand"`, each tier uses a different brand's equipment at the same tonnage. The model is selected from `pricebook.json` based on `(brand, tonnage, system_type)`.
+
+When `TIER_STRATEGY = "efficiency"`, all tiers use the same brand but different SEER2 ratings. Model selected by `(brand, tonnage, seer_tier)`.
+
+### Default BOM (bill of materials)
+
+The Excel requires manual line-item quantity entry per job. The software replaces this with pre-calculated material cost totals by tonnage and access difficulty. These are stored in `pricebook.json` under `"default_bom"` and were derived from typical jobs in the client's PRICING WORKSHEET.
+
+Structure:
+```json
+"default_bom": {
+  "1.5": { "standard": 320, "attic": 380, "rooftop": 420 },
+  "2.0": { "standard": 360, "attic": 420, "rooftop": 460 },
+  ...
+}
+```
+
+### Adder costs
+
+On top of the base formula, add these when applicable:
+
+| Adder | Amount | Trigger |
+|---|---|---|
+| Permit | $200 (default) | Always on replacement jobs; or when `permit_required = true` |
+| Lineset replacement | TBD from client | When `lineset_replacement = true` |
+| Electrical work | TBD from client | When `electrical_work_needed = true` |
+| Ductwork | TBD from client | When `ductwork_needed = true` |
+
+### What's in pricebook.json
+
+```json
+{
+  "pricing_constants": { "equipment_markup": 1.10, "materials_buffer": 1.05, "markup_divisor": 0.55, "tax_rate": 0.0825 },
+  "fixed_costs": { "warranty": 150, "permit_default": 200, "misc_flat": 150 },
+  "labor": { "complete_retrofit": 900, ... },
+  "adders": { "lineset_replacement": null, "electrical_work": null, "ductwork": null },
+  "default_bom": { "1.5": { "standard": 280, "attic": 340, ... }, ... },
+  "equipment_catalog": {
+    "AMANA": { "gas_furnace": [...], "condenser": [...], ... },
+    "GOODMAN": { ... }, "LENNOX": { ... }, "TRANE": { ... }, "CARRIER": { ... }
+  },
+  "materials_catalog": {
+    "copper_tubing": [...], "flex_duct_r8": [...], "thermostats": [...], ...
+  },
+  "tier_brands": {
+    "brand": {
+      "good": { "brand_name": "Goodman", "package_key": "goodman_standard" },
+      "better": { "brand_name": "Amana", "package_key": "amana_high_eff" },
+      "best": { "brand_name": "Trane", "package_key": "trane_premium" }
+    }
+  },
+  "system_packages": {
+    "amana_standard_eff": { "1.5": { "furnace_model": "...", "total_dealer_cost": 1865.16 }, ... },
+    "goodman_standard": { ... }, "lennox_standard": { ... }, "trane_standard": { ... },
+    // 12 packages total: 4 brands × 3 efficiency tiers
+  }
+}
+```
+
+### Implementation checklist
+
+- [x] Populate `pricebook.json` with real equipment data from EQUIPMENT PRICING sheet — ALL 5 brands done (2026-03-24)
+- [x] Populate `pricebook.json` with default BOM values by tonnage
+- [x] Rewrite `pricing_engine.py` to implement the formula chain above
+- [x] Remove `is_placeholder = True` from TierOption when real pricing is wired in — all brands now confirmed
+- [x] Add real pricing tests to `test_pricing.py`
+- [x] Get Trane and Lennox dealer costs — they were in the Excel all along
+- [ ] Update `pricebook.py` router to serve real equipment data
+- [ ] Get client confirmation on tier strategy
+- [ ] Confirm adder costs (lineset, electrical, ductwork)
 
 ---
 
-## Open Decisions — Confirm with Client Before Phase 2
+## Open Client Questions
 
-- [ ] **Tier strategy** — brand-based (Option A) or efficiency-based (Option B)?
-- [ ] **Pricing display** — total only, fully itemized, or itemized internally / total shown to customer?
-- [ ] **Additional brands** — confirm the 2-3 brands carried beyond Trane (for pricebook)
-- [ ] **Provide Excel pricing dashboard**
-- [ ] **Company logo** — replace `[ Company Logo ]` placeholder in header and PDF
-- [ ] **Branding preferences** — colors, fonts, company name for proposal template
+Full list in `docs/confused.md`. The **remaining blockers** for Phase 2:
+
+1. **Tier strategy** — brand-based or efficiency-based? (see question A2)
+2. ~~**Trane and Lennox dealer costs**~~ — **RESOLVED** (2026-03-24)
+3. **Adder costs** — lineset, electrical, ductwork amounts (see question C2)
+4. **What the Incentive (4% of sale) is** — affects whether we include it (see question C3)
+5. **Materials handling factor** — confirm the 1.05 multiplier meaning (see question C5)
 
 ---
 
 ## Key Design Decisions
 
-- **No AI at runtime** — all logic is deterministic Python. The parser uses regex and keyword matching only.
-- **TIER_STRATEGY config flag** — both tier strategies are implemented behind a single config switch so the client decision doesn't require a code rewrite.
-- **Placeholder-first architecture** — the full end-to-end flow works with placeholder prices, allowing the frontend and backend to be fully tested before the Excel file arrives.
-- **fpdf2 for PDF** — chosen over WeasyPrint due to macOS system library dependencies. fpdf2 is pure Python with no system requirements.
-- **Tonnage snapping** — the parser snaps extracted tonnage to the nearest valid value (1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0) and drops confidence to `medium` if an exact match isn't found.
+- **No AI at runtime.** All pricing is deterministic Python from `pricebook.json` + formula constants.
+- **Excel formula chain is the source of truth.** Any pricing question should be traced back to what the Excel did.
+- **Default BOM instead of line-item entry.** The software uses pre-calculated material totals by tonnage/access. This is a deliberate simplification — the client confirmed (or will confirm) this is acceptable for the proposal stage.
+- **`TIER_STRATEGY` config flag.** Both brand and efficiency strategies are implemented behind a single switch. Client decision does not require a code rewrite.
+- **`is_placeholder` flag.** Any `TierOption` with `is_placeholder=True` shows a "Pricing pending" notice in the PDF and UI. Remove this flag per tier as real pricing is wired in.
+- **fpdf2 for PDF.** Pure Python, no system library dependencies.
+- **Tonnage snapping.** Parser snaps extracted tonnage to nearest valid value: 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0.
+
+---
+
+## Equipment Pricing — All Brands Populated (2026-03-24)
+
+All 5 brands (Amana, Carrier, Goodman, Lennox, Trane) have real dealer costs from the EQUIPMENT PRICING sheet. 685 total equipment items. 12 system packages across 4 brands × 3 efficiency tiers. No placeholders remain.
+
+**Notes:**
+- Shared coil models (ARUF/ASPT) have different dealer costs under Amana vs Goodman — each package uses the correct brand's price.
+- Amana premium and Trane/Lennox premium packages only cover 2.0/3.0/4.0/5.0T (no 1.5/2.5/3.5T condensers available in those premium lines).
+- S9V2C100U5VSB (Trane 100k BTU variable furnace) is $3,965 in Excel — verify with distributor.
 
 ---
 
@@ -192,8 +274,8 @@ TIER_STRATEGY = "brand"  # Switch to "efficiency" once client confirms
 
 ```bash
 cd backend
-python tests/test_pricing.py       # 5 tests
+python tests/test_pricing.py       # pricing engine tests
 python tests/test_notes_parser.py  # 41 tests
 ```
 
-All 46 tests should pass before any push.
+All tests must pass before any commit.

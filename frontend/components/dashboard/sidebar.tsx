@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Flame, LayoutDashboard, FileText, Calculator, Settings, Wrench } from "lucide-react";
+import { Flame, LayoutDashboard, FileText, Calculator, Settings, Wrench, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { label: "Dashboard",          href: "/",          icon: LayoutDashboard },
   { label: "Proposals",          href: "/proposals", icon: FileText },
   { label: "Estimate Generator", href: "/estimate",  icon: Calculator },
+  { label: "Equipment",          href: "/equipment", icon: Package },
   { label: "Settings",           href: "/settings",  icon: Settings },
 ];
 
@@ -18,20 +19,20 @@ export function Sidebar() {
   return (
     <aside
       className="flex flex-col w-64 min-h-screen shrink-0"
-      style={{ background: "#111827" }}
+      style={{ background: "#14532d" }}
     >
       {/* Logo */}
       <div className="px-6 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
         <div className="flex items-center gap-3">
           <div
             className="flex items-center justify-center w-9 h-9 rounded-lg"
-            style={{ background: "#1a56db" }}
+            style={{ background: "#16a34a" }}
           >
             <Flame className="h-5 w-5 text-white" />
           </div>
           <div>
-            <div className="text-white font-bold text-sm leading-tight">HVAC Pro</div>
-            <div className="text-xs" style={{ color: "#6b7280" }}>Sales Dashboard</div>
+            <div className="text-white font-bold text-sm leading-tight">Lucks Air and Heat</div>
+            <div className="text-xs" style={{ color: "#6b7280" }}>Proposal Dashboard</div>
           </div>
         </div>
       </div>
@@ -51,7 +52,7 @@ export function Sidebar() {
                   ? "text-white"
                   : "text-gray-400 hover:text-white hover:bg-white/5"
               )}
-              style={active ? { background: "#1a56db" } : {}}
+              style={active ? { background: "#16a34a" } : {}}
             >
               <Icon className="h-4 w-4 shrink-0" />
               {label}
@@ -60,14 +61,27 @@ export function Sidebar() {
         })}
       </nav>
 
+      {/* Tech portal link */}
+      <div className="px-3 pb-2">
+        <a
+          href="/field"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+        >
+          <Wrench className="h-4 w-4 shrink-0" />
+          Tech Portal
+        </a>
+      </div>
+
       {/* Footer */}
       <div className="px-6 py-4 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-            style={{ background: "#374151" }}
+            style={{ background: "#166534" }}
           >
-            <Wrench className="h-4 w-4" />
+            <Flame className="h-4 w-4" />
           </div>
           <div>
             <div className="text-white text-xs font-semibold">Houston Metro</div>

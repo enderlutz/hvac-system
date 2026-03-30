@@ -15,7 +15,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { api, downloadPdf } from "@/lib/api";
-import type { JobInput, ProposalResponse, ParsedNotesResponse, TierOption } from "@/lib/types";
+import type { JobInput, ProposalResponse, ParsedNotesResponse, TierOption, ProposalAddOn } from "@/lib/types";
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -133,12 +133,44 @@ function TierCard({ tier, highlight = false }: { tier: TierOption; highlight?: b
             </div>
           )}
           <div className="flex justify-between font-bold text-base pt-1 border-t">
-            <span>Total</span>
+            <span>Suggested Price</span>
             <span className={tier.is_placeholder ? "text-muted-foreground italic" : "text-primary"}>
               {tier.total_price}
             </span>
           </div>
+          {tier.cash_discount_price && (
+            <div className="flex justify-between text-xs text-emerald-700">
+              <span>Cash/Check (5% off)</span><span>{tier.cash_discount_price}</span>
+            </div>
+          )}
         </div>
+
+        {/* Margin analysis (admin view) */}
+        {tier.margin && (
+          <div className="border-t pt-3 space-y-1">
+            <div className="text-xs font-medium text-muted-foreground mb-1">Margin Analysis</div>
+            <div className="flex justify-between text-xs">
+              <span className="text-muted-foreground">Cost</span>
+              <span>${tier.margin.total_cost.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="text-muted-foreground">Tax</span>
+              <span>${tier.margin.tax.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="text-muted-foreground">Gross Margin</span>
+              <span className={tier.margin.gross_margin_pct >= 40 ? "text-emerald-600 font-medium" : "text-amber-600 font-medium"}>
+                {tier.margin.gross_margin_pct}%
+              </span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="text-muted-foreground">Net Profit</span>
+              <span className={tier.margin.net_profit_pct >= 15 ? "text-emerald-600 font-medium" : "text-amber-600 font-medium"}>
+                ${tier.margin.net_profit.toLocaleString()} ({tier.margin.net_profit_pct}%)
+              </span>
+            </div>
+          </div>
+        )}
 
         {tier.is_placeholder && (
           <div className="text-center text-xs text-muted-foreground italic bg-muted/50 rounded px-2 py-1">
@@ -683,6 +715,32 @@ export default function EstimatePage() {
                 <TierCard tier={proposal.better} />
                 <TierCard tier={proposal.best} highlight />
               </div>
+
+              {/* Add-on options */}
+              {proposal.add_ons && proposal.add_ons.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">Proposal Options (Add-Ons)</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <p className="text-xs text-muted-foreground">
+                      Optional upgrades the customer can choose on top of any tier:
+                    </p>
+                    {proposal.add_ons.map((addon, i) => (
+                      <label key={i} className="flex items-center justify-between gap-3 p-3 border rounded-lg hover:bg-muted/50 cursor-pointer">
+                        <div className="flex items-center gap-3">
+                          <input type="checkbox" className="w-4 h-4 rounded" defaultChecked={addon.selected} />
+                          <div>
+                            <div className="text-sm font-medium">{addon.name}</div>
+                            <div className="text-xs text-muted-foreground">{addon.description}</div>
+                          </div>
+                        </div>
+                        <div className="text-sm font-bold shrink-0">${addon.price.toLocaleString()}</div>
+                      </label>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
             </div>
           )}
         </div>

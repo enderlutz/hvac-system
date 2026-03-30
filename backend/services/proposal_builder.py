@@ -5,7 +5,7 @@ Proposal Builder — assembles the final ProposalResponse from job input and pri
 import uuid
 from models.job_input import JobInput, Refrigerant, ServiceType
 from models.proposal import ProposalResponse
-from services.pricing_engine import calculate_proposal
+from services.pricing_engine import calculate_proposal, DEFAULT_ADD_ONS
 
 
 def build_proposal(job: JobInput) -> ProposalResponse:
@@ -34,4 +34,5 @@ def build_proposal(job: JobInput) -> ProposalResponse:
         good=tiers["good"],
         better=tiers["better"],
         best=tiers["best"],
+        add_ons=[addon.model_copy() for addon in DEFAULT_ADD_ONS],
     )

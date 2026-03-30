@@ -51,8 +51,30 @@ export interface JobInput {
   ductwork_needed?: boolean;
   ductwork_notes?: string;
   access_difficulty?: string;
+  orientation?: string;
   urgency?: string;
+  permit_cost_override?: number;
   additional_notes?: string;
+}
+
+export interface MarginAnalysis {
+  total_cost: number;
+  suggested_retail: number;
+  tax: number;
+  suggested_final: number;
+  cash_discount_price: number;
+  gross_margin_dollars: number;
+  gross_margin_pct: number;
+  overhead_20pct: number;
+  net_profit: number;
+  net_profit_pct: number;
+}
+
+export interface ProposalAddOn {
+  name: string;
+  description: string;
+  price: number;
+  selected: boolean;
 }
 
 export interface TierOption {
@@ -68,7 +90,9 @@ export interface TierOption {
   labor_cost: string;
   adders_cost: string;
   total_price: string;
+  cash_discount_price: string;
   is_placeholder: boolean;
+  margin?: MarginAnalysis;
 }
 
 export interface ProposalResponse {
@@ -86,6 +110,7 @@ export interface ProposalResponse {
   good: TierOption;
   better: TierOption;
   best: TierOption;
+  add_ons: ProposalAddOn[];
 }
 
 export interface ParsedNotesField {
@@ -110,6 +135,35 @@ export interface ParsedNotesResponse {
   electrical_work?: ParsedNotesField;
   ductwork_needed?: ParsedNotesField;
   r22_flag: boolean;
+}
+
+// ── Pipeline record (matches backend ProposalRecord) ─────────
+
+export interface ProposalRecord {
+  id: string;
+  customer_name: string;
+  customer_address: string;
+  technician_name: string;
+  visit_date: string;
+  system_type: string;
+  service_type: string;
+  system_size_tons: number;
+  stage: ProposalStage;
+  urgency: "routine" | "soon" | "urgent";
+  r22_flag: boolean;
+  permit_required: boolean;
+  seer2_compliance_note: boolean;
+  good_tier: TierOption;
+  better_tier: TierOption;
+  best_tier: TierOption;
+  good_price: string;
+  better_price: string;
+  best_price: string;
+  pipeline_value: number;
+  notes?: string;
+  owner_notes?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 // ── Dashboard analytics ───────────────────────────────────────
