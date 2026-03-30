@@ -1,4 +1,5 @@
 import { Sidebar } from "@/components/dashboard/sidebar";
+import { TutorialOverlay } from "@/components/dashboard/tutorial-overlay";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       >
         <div className="p-8">{children}</div>
       </main>
+      <TutorialOverlay />
     </div>
   );
 }
