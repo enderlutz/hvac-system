@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Flame, LayoutDashboard, FileText, Calculator, Settings, Wrench, Package } from "lucide-react";
+import { Flame, LayoutDashboard, FileText, Calculator, Settings, Wrench, Package, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { label: "Proposals",          href: "/proposals", icon: FileText },
   { label: "Estimate Generator", href: "/estimate",  icon: Calculator },
   { label: "Equipment",          href: "/equipment", icon: Package },
+  { label: "Pricing",            href: "/pricing",   icon: DollarSign },
   { label: "Settings",           href: "/settings",  icon: Settings },
 ];
 
