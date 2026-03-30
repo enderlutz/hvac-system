@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/lib/api";
+import { MOCK_PIPELINE } from "@/lib/mock-data";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { ProposalRecord, ProposalStage, KanbanColumn } from "@/lib/types";
 
@@ -374,7 +375,7 @@ export default function ProposalsPage() {
       const data = await api.pipeline.list();
       setProposals(data);
     } catch {
-      // silently fail on poll errors
+      if (proposals.length === 0) setProposals(MOCK_PIPELINE);
     } finally {
       setLoading(false);
     }

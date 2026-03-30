@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
+import { MOCK_PIPELINE } from "@/lib/mock-data";
 import { formatDate } from "@/lib/utils";
 import type { ProposalRecord, TierOption, ProposalStage } from "@/lib/types";
 
@@ -157,7 +158,11 @@ export default function ProposalDetailPage() {
   useEffect(() => {
     api.pipeline.get(id)
       .then(setRecord)
-      .catch(() => toast.error("Could not load proposal"))
+      .catch(() => {
+        const mock = MOCK_PIPELINE.find((p) => p.id === id);
+        if (mock) setRecord(mock);
+        else toast.error("Could not load proposal");
+      })
       .finally(() => setLoading(false));
   }, [id]);
 

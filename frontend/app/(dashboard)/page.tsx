@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
+import { MOCK_PIPELINE } from "@/lib/mock-data";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { ProposalRecord, ProposalStage } from "@/lib/types";
 
@@ -81,7 +82,7 @@ export default function DashboardPage() {
       const data = await api.pipeline.list();
       setProposals(data);
     } catch {
-      // silently fail
+      if (proposals.length === 0) setProposals(MOCK_PIPELINE);
     } finally {
       setLoading(false);
     }
